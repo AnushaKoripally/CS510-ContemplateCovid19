@@ -1,0 +1,245 @@
+<html>
+
+    <meta charset="utf-8">
+
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+
+
+    <!-- Flag sprites service provided by Martijn Lafeber, https://github.com/lafeber/world-flags-sprite/blob/master/LICENSE -->
+    <link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<head>
+    <title>Contemplate Covid-19 Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            /* Style the body */
+            body {
+              font-family: Arial;
+              margin: 1;
+            }
+
+            /* Header/Logo Title */
+            .header {
+              padding: 20px;
+              text-align: center;
+              background: lightblue;
+              color: black;
+              font-size: 20px;
+            }
+
+                        /* The sidebar menu */
+            .sidebar {
+              height: 100%; /* 100% Full-height */
+              width: 0; /* 0 width - change this with JavaScript */
+              position: fixed; /* Stay in place */
+              z-index: 1; /* Stay on top */
+              top: 0;
+              left: 0;
+              background-color: #111; /* Black*/
+              overflow-x: hidden; /* Disable horizontal scroll */
+              padding-top: 60px; /* Place content 60px from the top */
+              transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+            }
+
+            /* The sidebar links */
+            .sidebar a {
+              padding: 8px 8px 8px 32px;
+              text-decoration: none;
+              font-size: 25px;
+              color: #818181;
+              display: block;
+              transition: 0.3s;
+            }
+
+            /* When you mouse over the navigation links, change their color */
+            .sidebar a:hover {
+              color: #f1f1f1;
+            }
+
+            /* Position and style the close button (top right corner) */
+            .sidebar .closebtn {
+              position: absolute;
+              top: 0;
+              right: 25px;
+              font-size: 36px;
+              margin-left: 50px;
+            }
+
+            /* The button used to open the sidebar */
+            .openbtn {
+              font-size: 20px;
+              cursor: pointer;
+              background-color: #111;
+              color: white;
+              padding: 10px 15px;
+              border: none;
+            }
+
+            .openbtn:hover {
+              background-color: #444;
+            }
+
+            /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+            #main {
+              transition: margin-left .5s; /* If you want a transition effect */
+              padding: 20px;
+            }
+
+            /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+            @media screen and (max-height: 450px) {
+              .sidebar {padding-top: 15px;}
+              .sidebar a {font-size: 18px;}
+            }
+
+
+
+         </style>
+</head>
+    <body>
+        <div class="header">
+            <h1>Contemplate Covid-19</h1>
+        </div>
+
+
+
+
+        <div id="main">
+          <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>
+          <h1> Nursing Home </h1>
+                    <select class="form-control browser-default dropdown" id="dd">
+                        {% for i in town%}
+            <option value="" selected="selected">{{i|safe}}</option>
+                        {% endfor %}
+        </select>
+
+
+         <div id="mySidebar" class="sidebar" >
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+             <form method="post" enctype="multipart/form-data" action="NursingHome" action = "Home">
+          <a href="Home"><i class="fa fa-fw fa-home"></i>Home</a>
+          <a class="active"  href="NursingHome">Cases by Nursing Homes</a>
+
+             <p id="demo"></p>
+             </form>
+
+        </div>
+
+
+           {% if showNursing == 'True' %}
+                 <div>
+
+                      <table   color = "Blue" align="leftcenter" border = "10" cellpadding="10" style="width:10%" >
+
+                          <td>date</td>
+
+                          {% for i in data%}
+
+                             <td>{{i.date}} </td>
+
+                          {% endfor %}
+                      </table>
+
+                     <table  color = "Blue" align="center" border = "10" cellpadding="10" style="width:50%" >
+
+            <td>state</td>
+            <td>fips </td>
+            <td>cases </td>
+            <td>deaths </td>
+            <td>confirmed_cases </td>
+            <td>confirmed_deaths </td>
+            {% for i in data%}
+
+            <tr>
+                <td>{{i.state}} </td>
+                <td>{{i.fips}} </td>
+                <td>{{i.cases}} </td>
+                <td>{{i.deaths}} </td>
+                 <td>{{i.confirmed_cases}} </td>
+                 <td>{{i.confirmed_deaths}} </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+                     </div>
+            {% elif showNursing == 'False' %}
+             <div> <canvas id="myChart1"  width="400" height="200"></canvas> </div>
+
+            {%endif%}
+        </div>
+
+
+
+
+    </body>
+
+<script>
+   </script>
+
+<script>
+
+     function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+
+
+    var ctx = document.getElementById('myChart1', ).getContext('2d');
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: {{town|safe}},
+        datasets: [{
+            label: 'Nursing Home Total beds',
+            backgroundColor: 'green',
+            borderColor: 'green',
+            data: {{barplotval2|safe}}
+
+        }]
+
+    },
+
+    // Configuration options go here
+    options: {}
+});
+var ctx = document.getElementById('myChart', ).getContext('2d');
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: {{town|safe}},
+        datasets: [{
+            label: 'Nursing Home Total beds',
+            backgroundColor: 'green',
+            borderColor: 'green',
+            data: {{barplotval|safe}}
+
+        }]
+
+    },
+
+    // Configuration options go here
+    options: {}
+});
+</script>
+
+
+
+</html>
