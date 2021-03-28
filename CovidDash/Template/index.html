@@ -1,22 +1,24 @@
 <html>
 
-    <meta charset="utf-8">
+<meta charset="utf-8">
 
-    <!-- Load d3.js -->
-    <script src="https://d3js.org/d3.v4.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <script src="https://d3js.org/d3.v4.js"></script>
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://d3js.org/d3.v4.js"></script>
 
-
-    <!-- Flag sprites service provided by Martijn Lafeber, https://github.com/lafeber/world-flags-sprite/blob/master/LICENSE -->
-    <link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <head>
-    <title>Contemplate Covid-19 Dashboard</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
+    <div class="header">
+        <title>Contemplate COVID-19</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </div>
+    <style>
             /* Style the body */
             body {
               font-family: Arial;
@@ -25,11 +27,14 @@
 
             /* Header/Logo Title */
             .header {
-              padding: 20px;
-              text-align: center;
-              background: lightblue;
-              color: black;
+              height: 60px;
+              width: 100%;
+              color: lightblue;
               font-size: 20px;
+              text-transform: uppercase;
+              background-image: url(https://www.redcortex.co.uk/app/uploads/2020/02/Health-2.jpg);
+              background-size: contain;
+              background-repeat: repeat;
             }
 
                         /* The sidebar menu */
@@ -75,7 +80,7 @@
               font-size: 20px;
               cursor: pointer;
               background-color: #111;
-              color: white;
+              color: lightblue;
               padding: 10px 15px;
               border: none;
             }
@@ -96,88 +101,98 @@
               .sidebar a {font-size: 18px;}
             }
 
+            .title {
+               background: black;
+               border-radius: 6px 6px;
+            }
+
+            .tabtext {
+            color: black;
+            font-family: arial, sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 2px;
+            margin-left: 200px;
+            margin-bottom: 30px;
+            }
+
+            .screenbg{
+                height: 560px;
+                background-image: linear-gradient(lightblue, lightgrey);
+                color: 1;
+            }
 
 
-         </style>
+    </style>
 </head>
-    <body>
-        <div class="header">
-            <h1>Contemplate Covid-19</h1>
+<body>
+<div class="header">
+    <h1 class="title" align="center">Contemplate Covid-19</h1>
+</div>
+
+<div class="screenbg">
+    <button class="openbtn" onclick="openNav()" align="left">&#9776; View Statistics</button>
+    <div id="main">
+        <h1 align="center"> Daily Covid-19 Report </h1>
+        <div id="mySidebar" class="sidebar">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+            <form method="post" enctype="multipart/form-data" action="Home" action="NursingHome">
+                <a class="active" href="Home"><i class="fa fa-fw fa-home"></i>Home</a>
+                <a href="NursingHome">Cases by Nursing Homes</a>
+
+                <p id="demo"></p>
+            </form>
         </div>
+    </div>
 
+    {% if showNursing == 'True'%}
+    <div>
+        <table align="center" border="2" cellpadding="5" style="width:50%" height="10" bgcolor="teal">
 
-        <div id="main">
-          <button class="openbtn" onclick="openNav()">&#9776; Open Sidebar</button>
-          <h1> Daily Covid-19 Report </h1>
+            <td class="tabtext"> Covid-19 Daily Update</td>
 
+        </table>
 
+        <table align="center" border="2" cellpadding="5" style="width:50%">
 
-         <div id="mySidebar" class="sidebar" >
-          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <td bgcolor="white">STATE</td>
 
-         <form method="post" enctype="multipart/form-data" action = "Home"  action="NursingHome" >
-          <a class="active" href="Home"><i class="fa fa-fw fa-home"></i>Home</a>
-          <a href="NursingHome">Cases by Nursing Homes</a>
-
-             <p id="demo"></p>
-             </form>
-
-
-
-        </div>
-
-
-              {% if showNursing == 'True'%}
-                 <div>
-                      <table  align="center" border = "5" cellpadding="15" style="width:50%" height="10" bgcolor="lightblue">
-
-                          <td> Covid-19 Daily Update</td>
-
-                      </table>
-
-
-                     <table   color = "Blue" align="center" border = "5" cellpadding="10" style="width:50%" >
-
-            <td>state</td>
-
-            <td>fips </td>
-            <td>cases </td>
-            <td>deaths </td>
-            <td>confirmed_cases </td>
-            <td>confirmed_deaths </td>
+            <td bgcolor="white">FIPS</td>
+            <td bgcolor="white">CASES</td>
+            <td bgcolor="white">DEATHS</td>
+            <td bgcolor="white">CONFIRMED_CASES</td>
+            <td bgcolor="white">CONFIRMED_DEATHS</td>
             {% for i in data%}
 
             <tr>
-                <td>{{i.state}} </td>
+                <td>{{i.state}}</td>
 
-                <td>{{i.fips}} </td>
-                <td>{{i.cases}} </td>
-                <td>{{i.deaths}} </td>
-                 <td>{{i.confirmed_cases}} </td>
-                 <td>{{i.confirmed_deaths}} </td>
+                <td>{{i.fips}}</td>
+                <td>{{i.cases}}</td>
+                <td>{{i.deaths}}</td>
+                <td>{{i.confirmed_cases}}</td>
+                <td>{{i.confirmed_deaths}}</td>
             </tr>
             {% endfor %}
 
         </table>
-       </div>
+    </div>
 
-            {% elif showNursing == 'False' %}
-             <div> <canvas id="myChart1"  width="400" height="200"></canvas> </div>
+    {% elif showNursing == 'False' %}
+    <div class="screenbg">
+        <canvas id="myChart1" width="400" height="200"></canvas>
+    </div>
 
-        </select>
-
-
-            {%endif%}
-
-
-        </div>
+    </select>
 
 
+    {%endif%}
 
 
-    </body>
+</div>
 
-
+</body>
 <script>
 
      function openNav() {
@@ -192,7 +207,4 @@
     }
 
 </script>
-
-
-
 </html>

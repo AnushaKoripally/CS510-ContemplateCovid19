@@ -13,7 +13,6 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
 <head>
     <div class="header">
         <title>Contemplate COVID-19</title>
@@ -21,7 +20,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </div>
     <style>
-            /* Style the body */
+     /* Style the body */
             body {
               font-family: Arial;
               margin: 1;
@@ -29,7 +28,7 @@
 
             /* Header/Logo Title */
             .header {
-              height: 80px;
+              height: 60px;
               width: 100%;
               color: lightblue;
               font-size: 20px;
@@ -108,6 +107,12 @@
                border-radius: 6px 6px;
             }
 
+            .subscript {
+               color: black;
+               font-weight: bold;
+               text-align: right;
+            }
+
             .tabtext {
             color: black;
             font-family: arial, sans-serif;
@@ -124,8 +129,7 @@
                 color: 1;
             }
 
-
-     </style>
+    </style>
 </head>
 <body>
 <div class="header">
@@ -135,19 +139,23 @@
 
 <div class="screenbg">
     <button class="openbtn" onclick="openNav()" align="left">&#9776; View Statistics</button>
-    <div id="main">
 
-    <h1> Nursing Homes by town </h1>
+    <div id="main">
+    <h1> Nursing Homes by town</h1>
     <select class="form-control browser-default dropdown" id="dd" onchange="townSelection()">
-        {% for i in town%}
-        <option value={{i}} selected="selected">{{i|safe}}</option>
+        {% for i in town %}
+            {% if town_selection == i %}
+                <option value={{i}} selected>{{i|safe}}</option>
+            {% else %}
+                 <option value={{i}}>{{i|safe}}</option>
+            {%endif%}
         {% endfor %}
     </select>
 
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-        <form method="post"  enctype="multipart/form-data" action="NursingHome" action="Home">
+        <form method="post" enctype="multipart/form-data" action="NursingHome" action="Home">
             <a href="Home"><i class="fa fa-fw fa-home"></i>Home</a>
             <a class="active" href="NursingHome">Cases by Nursing Homes</a>
 
@@ -155,6 +163,52 @@
         </form>
 
     </div>
+
+
+    {% if showNursing == 'True' %}
+    <div>
+
+        <table color="Blue" align="leftcenter" border="10" cellpadding="10" style="width:10%">
+
+            <td>date</td>
+
+            {% for i in data%}
+
+            <td>{{i.date}}</td>
+
+            {% endfor %}
+        </table>
+
+        <table color="Blue" align="center" border="10" cellpadding="10" style="width:50%">
+
+            <td>state</td>
+            <td>fips</td>
+            <td>cases</td>
+            <td>deaths</td>
+            <td>confirmed_cases</td>
+            <td>confirmed_deaths</td>
+            {% for i in data%}
+
+            <tr>
+                <td>{{i.state}}</td>
+                <td>{{i.fips}}</td>
+                <td>{{i.cases}}</td>
+                <td>{{i.deaths}}</td>
+                <td>{{i.confirmed_cases}}</td>
+                <td>{{i.confirmed_deaths}}</td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+    {% elif showNursing == 'False' %}
+    {{showTownSelection}}
+        <div>
+            <canvas id="myChart1" width="400" height="100"></canvas>
+        </div>
+
+    {%endif%}
 
 </div>
 
@@ -177,14 +231,81 @@
       document.getElementById("main").style.marginLeft = "0";
     }
 
-    function townSelection() {
+
+    var ctx = document.getElementById('myChart1', ).getContext('2d');
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+
+        datasets: [{
+            label: 'Licensed Beds',
+            backgroundColor: 'purple',
+            borderColor: 'purple',
+            data: {{barplotval|safe}}
+
+        },
+        {
+            label: 'Residents with covid',
+            backgroundColor: 'blue',
+            borderColor: 'blue',
+            data: {{barplotval1|safe}}
+
+        },
+         {
+            label: 'Lab confirmed cases',
+            backgroundColor: 'orange',
+            borderColor: 'orange',
+            data: {{barplotval2|safe}}
+
+        },
+        {
+            label: 'Probable associated deaths',
+            backgroundColor: 'brown',
+            borderColor: 'brown',
+            data: {{barplotval3|safe}}
+
+        }]
+
+    },
+
+    // Configuration options go here
+    options: {}
+});
+var ctx = document.getElementById('myChart', ).getContext('2d');
+    var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: {{town|safe}},
+        datasets: [{
+            label: 'Nursing Home Total beds',
+            backgroundColor: 'green',
+            borderColor: 'green',
+            data: {{barplotval|safe}}
+
+        }]
+
+    },
+
+    // Configuration options go here
+    options: {}
+});
 
 
-        var id = document.getElementById("dd").value
+function townSelection() {
 
-        // Construct the full URL with "id"
-        document.location.href = "/" + "TownSelection" + "/" + id;
-    }
+
+    var id = document.getElementById("dd").value;
+
+    // Construct the full URL with "id"
+    document.location.href = "/" + "TownSelection" + "/" + id;
+}
+
 
 
 </script>
