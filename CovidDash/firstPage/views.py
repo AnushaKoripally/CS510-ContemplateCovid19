@@ -1,8 +1,6 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 import pandas as pd
-import os
-import numpy as np
+from django.shortcuts import render
+import matplotlib.pyplot as plt
 
 # Create your views here.
 df3 = pd.read_json(
@@ -11,11 +9,6 @@ df3 = pd.read_json(
 
 def index(request):
     nursingHome = pd.read_csv('https://data.ct.gov/resource/wyn3-qphu.csv', encoding='utf-8', na_values=None)
-    """barplot = nursingHome[['town', nursingHome.columns[4]]].groupby('town').sum().sort_values(by='licensed_beds',ascending=False)
-    barplot = barplot.reset_index()
-    barplot.columns = ['town', 'values']
-    barplotval = barplot['values'].values.tolist()
-    towns = barplot['town'].values.tolist()"""
 
     barplot = nursingHome[['town', nursingHome.columns[4], nursingHome.columns[5], nursingHome.columns[6],
                            nursingHome.columns[7]]].groupby('town').sum().sort_values(by='licensed_beds',
@@ -103,4 +96,71 @@ def datasets1(request):
     context = {'town': towns,'showNursing': showNursing, 'showTownSelection':showTownSelection, 'town_selection':town_selection}
     return render(request, 'index2.html', context)
 
+def datasetAgeGenderEthnicity(request,selection):
+    raceData = pd.read_csv('https://data.ct.gov/resource/7rne-efic.csv', encoding='utf-8', na_values=None)
+    ageData = pd.read_csv('https://data.ct.gov/resource/ypz6-8qyf.csv', encoding='utf-8', na_values=None)
+    genderData = pd.read_csv('https://data.ct.gov/resource/qa53-fghg.csv', encoding='utf-8', na_values=None)
 
+    barplot = genderData[['gender',genderData.columns[3],genderData.columns[4],genderData.columns[7],genderData.columns[8]]].groupby('gender').sum().sort_values(by='gender')
+    barplot = barplot.reset_index()
+    print(barplot)
+
+    barplotValMale = barplot[1:2].values.tolist().pop(0)
+    barplotValMale = [x for x in barplotValMale if str(x) != 'Male']
+    barplotValFemale = barplot[:1].values.tolist().pop(0)
+    barplotValFemale = [x for x in barplotValFemale if str(x) != 'Female']
+    barplotValOther = barplot[2:3].values.tolist().pop(0)
+    barplotValOther = [x for x in barplotValOther if str(x) != 'Other']
+    genderLabels = ['total_cases','confirmed_cases','total_deaths','confirmed_deaths']
+
+    barplotage = ageData[['agegroups',ageData.columns[3],ageData.columns[4],ageData.columns[7],ageData.columns[8]]].groupby('agegroups').sum().sort_values(by='agegroups')
+    barplotage = barplotage.reset_index()
+    barplotage1 = barplotage[barplotage.columns[1]].values.tolist()
+    barplotage2 = barplotage[barplotage.columns[2]].values.tolist()
+    barplotage3 = barplotage[barplotage.columns[3]].values.tolist()
+    barplotage4 = barplotage[barplotage.columns[4]].values.tolist()
+
+    agesGrouped = barplotage['agegroups'].values.tolist()
+    barplotage = barplotage.drop(['agegroups'], axis =1)
+    barplotage.columns = ['','', '', '']
+
+    print(barplotage)
+    print(barplotage1)
+    print(barplotage2)
+    print(barplotage3)
+    print(barplotage4)
+    labels = ['total_cases','confirmed_cases','total_deaths','confirmed_deaths']
+    print(agesGrouped)
+
+    barplotrace = raceData[['hisp_race',raceData.columns[2],raceData.columns[3],raceData.columns[6]]].groupby('hisp_race').sum().sort_values(by='hisp_race')
+    barplotrace = barplotrace.reset_index()
+    print(barplotrace)
+    barplotrace2 = barplotrace[barplotrace.columns[2]].values.tolist()
+    barplotrace3 = barplotrace[barplotrace.columns[3]].values.tolist()
+    racesGrouped = barplotrace['hisp_race'].values.tolist()
+    print(racesGrouped)
+    barplotrace = barplotrace.drop(['hisp_race'], axis =1)
+
+    barplotrace.columns = ['', '', '']
+    print(barplotrace2)
+    print(barplotrace3)
+
+
+    context = {'selection': selection, 'barplotValMale':barplotValMale, 'barplotValFemale':barplotValFemale,'barplotValOther':barplotValOther,'labels':genderLabels,
+               'barplotage1':barplotage1,'barplotage2':barplotage2,'barplotage3':barplotage3,'barplotage4':barplotage4,'agesGrouped':agesGrouped,
+               'barplotrace2':barplotrace2, 'barplotrace3':barplotrace3,'racesGrouped':racesGrouped}
+
+    if selection == 'Gender':
+        print(selection)
+        return render(request, 'GenderCases.html', context)
+
+    elif selection == 'Age':
+        print(selection)
+        return render(request, 'GenderCases.html', context)
+
+    elif selection == 'Ethnicity':
+        print(selection)
+        return render(request, 'GenderCases.html', context)
+
+def ageGenderEthnicityView(request):
+    return render(request, 'AgeGenderEthnicityCases.html')

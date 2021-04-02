@@ -55,7 +55,7 @@
             .sidebar a {
               padding: 8px 8px 8px 32px;
               text-decoration: none;
-              font-size: 25px;
+              font-size: 20px;
               color: #818181;
               display: block;
               transition: 0.3s;
@@ -117,7 +117,7 @@
             }
 
             .screenbg{
-                height: 560px;
+                height: 600px;
                 background-image: linear-gradient(lightblue, lightgrey);
                 color: 1;
             }
@@ -130,7 +130,7 @@
     <h1 class="title" align="center">Contemplate Covid-19</h1>
 </div>
 
-<div class="screenbg">
+<div>
     <button class="openbtn" onclick="openNav()" align="left">&#9776; View Statistics</button>
     <div id="main">
         <h1 align="center"> Daily Covid-19 Report </h1>
@@ -139,8 +139,9 @@
 
             <form method="post" enctype="multipart/form-data" action="Home" action="NursingHome">
                 <a class="active" href="Home"><i class="fa fa-fw fa-home"></i>Home</a>
-                <a href="NursingHome">Cases by Nursing Homes</a>
-
+                <h5 style="color:white;">Browse Cases by</h5>
+                <a href="NursingHome">Nursing Homes</a>
+                <a href="casesByAgeGenderEthnicity">Age/Gender/Ethnicity</a>
                 <p id="demo"></p>
             </form>
         </div>
@@ -180,7 +181,7 @@
     </div>
 
     {% elif showNursing == 'False' %}
-    <div class="screenbg">
+    <div>
         <canvas id="myChart1" width="400" height="200"></canvas>
     </div>
 

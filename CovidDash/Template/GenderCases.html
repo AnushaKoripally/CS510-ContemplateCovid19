@@ -1,0 +1,271 @@
+<html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<!-- Flag sprites service provided by Martijn Lafeber, https://github.com/lafeber/world-flags-sprite/blob/master/LICENSE -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<head>
+    <div class="header">
+        <title>Contemplate COVID-19</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </div>
+    <style>
+            /* Style the body */
+            body {
+              font-family: Arial;
+              margin: 1;
+            }
+
+            /* Header/Logo Title */
+            .header {
+              height: 60px;
+              width: 100%;
+              color: lightblue;
+              font-size: 20px;
+              text-transform: uppercase;
+              background-image: url(https://www.redcortex.co.uk/app/uploads/2020/02/Health-2.jpg);
+              background-size: contain;
+              background-repeat: repeat;
+            }
+
+                        /* The sidebar menu */
+            .sidebar {
+              height: 100%; /* 100% Full-height */
+              width: 0; /* 0 width - change this with JavaScript */
+              position: fixed; /* Stay in place */
+              z-index: 1; /* Stay on top */
+              top: 0;
+              left: 0;
+              background-color: #111; /* Black*/
+              overflow-x: hidden; /* Disable horizontal scroll */
+              padding-top: 60px; /* Place content 60px from the top */
+              transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+            }
+
+            /* The sidebar links */
+            .sidebar a {
+              padding: 8px 8px 8px 32px;
+              text-decoration: none;
+              font-size: 25px;
+              color: #818181;
+              display: block;
+              transition: 0.3s;
+            }
+
+            /* When you mouse over the navigation links, change their color */
+            .sidebar a:hover {
+              color: #f1f1f1;
+            }
+
+            /* Position and style the close button (top right corner) */
+            .sidebar .closebtn {
+              position: absolute;
+              top: 0;
+              right: 25px;
+              font-size: 36px;
+              margin-left: 50px;
+            }
+
+            /* The button used to open the sidebar */
+            .openbtn {
+              font-size: 20px;
+              cursor: pointer;
+              background-color: #111;
+              color: lightblue;
+              padding: 10px 15px;
+              border: none;
+            }
+
+            .openbtn:hover {
+              background-color: #444;
+            }
+
+            /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+            #main {
+              transition: margin-left .5s; /* If you want a transition effect */
+              padding: 20px;
+            }
+
+            /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+            @media screen and (max-height: 450px) {
+              .sidebar {padding-top: 15px;}
+              .sidebar a {font-size: 18px;}
+            }
+
+            .title {
+               background: black;
+               border-radius: 6px 6px;
+            }
+
+            .tabtext {
+            color: black;
+            font-family: arial, sans-serif;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 2px;
+            margin-left: 200px;
+            margin-bottom: 30px;
+            }
+
+            .screenbg{
+                height: 560px;
+                background-image: linear-gradient(lightblue, lightgrey);
+                color: 1;
+            }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1 class="title" align="center">Contemplate Covid-19</h1>
+</div>
+<div>
+    <button class="openbtn" onclick="openNav()" align="left">&#9776; View Statistics</button>
+    <div id="main">
+
+        <h1> Cases by Age Gender and Ethnicity </h1>
+        <select class="form-control browser-default dropdown" id="dd" onchange="selection()">
+            <option value='Age' selected="selected">Age</option>
+            <option value='Gender' selected="selected">Gender</option>
+            <option value='Ethnicity' selected="selected">Ethnicity</option>
+        </select>
+
+        <div id="mySidebar" class="sidebar">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <form method="post" enctype="multipart/form-data" action="Home" action="NursingHome">
+                <a href="Home"><i class="fa fa-fw fa-home"></i>Home</a>
+                <h5 style="color:white;">Browse Cases by</h5>
+                <a href="NursingHome">Nursing Homes</a>
+                <a class="active" href="casesByAgeGenderEthnicity">Age/Gender/Ethnicity</a>
+                <p id="demo"></p>
+            </form>
+        </div>
+        {% if selection == 'Gender' %}
+        <div>
+            <canvas id="genderChart" width="400" height="100"></canvas>
+        </div>
+        {% elif selection == 'Age' %}
+        <div>
+            <canvas id="AgeChart" width="400" height="100"></canvas>
+        </div>
+        {% elif selection == 'Ethnicity' %}
+        <div>
+            <canvas id="raceChart" width="400" height="100"></canvas>
+        </div>
+
+        {% endif %}
+    </div>
+</div>
+</body>
+
+<script>
+
+  var ctx1 = document.getElementById('genderChart',);
+  if(ctx1!=null){
+  var ct1 = ctx1.getContext('2d');
+  var myChart1 = new Chart(ct1, {
+  type: 'bar',
+  data: {
+  labels: ['Total cases','Confirmed cases','Total Deaths','Confirmed Deaths'],
+datasets: [
+  {
+    label: 'Male',
+    backgroundColor: '#5676A3', // green
+    data:{{barplotValMale|safe}}
+  },
+  {
+    label: 'Female',
+    backgroundColor: '#A3569D', // yellow
+     data:{{barplotValFemale|safe}}
+  },
+  {
+    label: 'Other',
+    backgroundColor: '#C70039', // yellow
+     data:{{barplotValOther|safe}}
+  }
+]},
+  options: {}
+});
+}
+  var ctx2 = document.getElementById('AgeChart',)
+  if(ctx2!=null){
+  var ct2 = ctx2.getContext('2d');
+  var myChart2 = new Chart(ct2, {
+  type: 'bar',
+  data: {
+  labels: ['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80 and older'],
+datasets: [
+  {
+    label: 'Total cases',
+    backgroundColor: '#5676A3',
+    data:{{barplotage1|safe}}
+  },
+  {
+    label: 'Confirmed cases',
+    backgroundColor: '#A3569D',
+     data:{{barplotage2|safe}}
+  },
+  {
+    label: 'Total Deaths',
+    backgroundColor: 'orange',
+     data:{{barplotage3|safe}}
+  },
+  {
+    label: 'Confirmed Deaths',
+    backgroundColor: 'red',
+     data:{{barplotage4|safe}}
+  }
+]},
+  options: {
+  }
+});
+}
+var ctx3 = document.getElementById('raceChart',).getContext('2d');
+  var myChart3 = new Chart(ctx3, {
+  type: 'bar',
+  data: {
+  labels: {{racesGrouped|safe}},
+datasets: [
+  {
+    label: 'Total cases',
+    backgroundColor: '#A3569D',
+     data:{{barplotrace2|safe}}
+  },
+  {
+    label: 'Total Deaths',
+    backgroundColor: 'orange',
+     data:{{barplotrace3|safe}}
+  }
+]},
+  options: {
+  }
+});
+
+     function openNav() {
+      document.getElementById("mySidebar").style.width = "250px";
+      document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+    function closeNav() {
+      document.getElementById("mySidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+
+    function selection() {
+        var id = document.getElementById("dd").value
+
+        // Construct the full URL with "id"
+        document.location.href = "/" + "AgeGenderEthnicitySelection" + "/" + id;
+    }
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+</html>
