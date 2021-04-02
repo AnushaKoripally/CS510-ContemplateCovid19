@@ -29,7 +29,7 @@
 
             /* Header/Logo Title */
             .header {
-              height: 60px;
+              height: 80px;
               width: 100%;
               color: lightblue;
               font-size: 20px;
@@ -125,8 +125,7 @@
             }
 
 
-
-    </style>
+     </style>
 </head>
 <body>
 <div class="header">
@@ -134,33 +133,43 @@
 </div>
 
 
-<div>
+<div >
     <button class="openbtn" onclick="openNav()" align="left">&#9776; View Statistics</button>
     <div id="main">
 
-        <h1> Nursing Homes by town </h1>
-        <select class="form-control browser-default dropdown" id="dd" onchange="townSelection()">
-            {% for i in town%}
-            <option value={{i}} selected="selected">{{i|safe}}</option>
-            {% endfor %}
-        </select>
+    <h1> Nursing Homes by town </h1>
+    <select class="form-control browser-default dropdown" id="dd" onchange="townSelection()">
+        {% for i in town%}
+        <option value={{i}} selected="selected">{{i|safe}}</option>
+        {% endfor %}
+    </select>
 
-        <div id="mySidebar" class="sidebar">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-            <form method="post" enctype="multipart/form-data" action="Home" action="NursingHome">
-                <a href="Home"><i class="fa fa-fw fa-home"></i>Home</a>
-                <h5 style="color:white;">Browse Cases by</h5>
-                <a class="active" href="NursingHome">Nursing Homes</a>
-                <a href="casesByAgeGenderEthnicity">Age/Gender/Ethnicity</a>
-                <p id="demo"></p>
-            </form>
+        <form method="post"  enctype="multipart/form-data" action="NursingHome" action="Home">
+            <a href="Home"><i class="fa fa-fw fa-home"></i>Home</a>
+            <a href="VaccinationbyCounty">Vaccination by County</a>
+             <a class="active" href="NursingHome">Cases by Nursing Homes</a>
+             <a href="CasesbyCounty">Cases by County</a>
+            <a href="casesByAgeGenderEthnicity">Cases by Age, Gender and Ethnicity</a>
 
-        </div>
+
+
+
+            <p id="demo"></p>
+        </form>
 
     </div>
+
 </div>
+</div>
+
 </body>
+
+<script>
+</script>
+
 <script>
 
      function openNav() {
@@ -183,5 +192,7 @@
         document.location.href = "/" + "TownSelection" + "/" + id;
     }
 
+
 </script>
+
 </html>

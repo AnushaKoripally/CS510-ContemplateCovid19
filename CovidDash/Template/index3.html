@@ -56,7 +56,7 @@
             .sidebar a {
               padding: 8px 8px 8px 32px;
               text-decoration: none;
-              font-size: 20px;
+              font-size: 25px;
               color: #818181;
               display: block;
               transition: 0.3s;
@@ -155,11 +155,13 @@
     <div id="mySidebar" class="sidebar">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-        <form method="post" enctype="multipart/form-data" action="Home" action="NursingHome">
+        <form method="post" enctype="multipart/form-data" action="NursingHome" action="Home">
             <a href="Home"><i class="fa fa-fw fa-home"></i>Home</a>
-            <h5 style="color:white;">Browse Cases by</h5>
-            <a class="active" href="NursingHome">Nursing Homes</a>
-            <a href="casesByAgeGenderEthnicity">Age/Gender/Ethnicity</a>
+            <a href="VaccinationbyCounty">Vaccination by County</a>
+            <a class="active" href="NursingHome">Cases by Nursing Homes</a>
+             <a href="CasesbyCounty">Cases by County</a>
+            <a href="casesByAgeGenderEthnicity">Cases by Age, Gender and Ethnicity</a>
+
             <p id="demo"></p>
         </form>
 
@@ -212,9 +214,11 @@
     {%endif%}
 
 </div>
+    </div>
 
-</div>
+
 </body>
+
 <script>
 
      function openNav() {
@@ -239,29 +243,29 @@
 
         datasets: [{
             label: 'Licensed Beds',
-            backgroundColor: '#56A383',
-            borderColor: '#56A383',
+            backgroundColor: 'purple',
+            borderColor: 'purple',
             data: {{barplotval|safe}}
 
         },
         {
             label: 'Residents with covid',
-            backgroundColor: '#5695A3',
-            borderColor: '#5695A3',
+            backgroundColor: 'blue',
+            borderColor: 'blue',
             data: {{barplotval1|safe}}
 
         },
          {
             label: 'Lab confirmed cases',
-            backgroundColor: '#66A356',
-            borderColor: '#66A356',
+            backgroundColor: 'orange',
+            borderColor: 'orange',
             data: {{barplotval2|safe}}
 
         },
         {
             label: 'Probable associated deaths',
-            backgroundColor: '#A35656',
-            borderColor: '#A35656',
+            backgroundColor: 'brown',
+            borderColor: 'brown',
             data: {{barplotval3|safe}}
 
         }]
@@ -271,8 +275,6 @@
     // Configuration options go here
     options: {}
 });
-
-
 var ctx = document.getElementById('myChart', ).getContext('2d');
     var chart = new Chart(ctx, {
     // The type of chart we want to create

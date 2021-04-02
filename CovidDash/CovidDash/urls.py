@@ -26,8 +26,12 @@ urlpatterns = [
    path(r'^$', views.index, name='Mainpage'),
    path(r'Home', views.index, name='Mainpage'),
    url(r'^NursingHome', views.datasets1, name='NursingHome'),
-   url(r'^TownSelection/(?P<town_selection>\w+)/$', views.datasets, name='TownSelection'),
-   url(r'casesByAgeGenderEthnicity',views.ageGenderEthnicityView, name = 'AgeGenderEthnicity'),
-   url(r'^AgeGenderEthnicitySelection/(?P<selection>\w+)/$', views.datasetAgeGenderEthnicity, name='AgeGenderEthnicitySelection'),
+   url(r'^CasesbyCounty', views.maps, name='CasesbyCounty'),
+   url(r'^VaccinationbyCounty', views.vaccination, name='VaccinationbyCounty'),
+   url(r'casesByAgeGenderEthnicity', views.ageGenderEthnicityView, name='AgeGenderEthnicity'),
+   url(r'^AgeGenderEthnicitySelection/(?P<selection>\w+)/$', views.datasetAgeGenderEthnicity,
+       name='AgeGenderEthnicitySelection'),
    #url(r'^TownSelection/(?P<town_selection>\w+)/$', views.datasets, name='TownSelection'),
+   url(r'^TownSelection/(?P<town_selection>\w+)/$', views.datasets, name='TownSelection'),
+
 ]
