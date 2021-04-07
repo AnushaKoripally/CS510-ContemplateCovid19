@@ -1,45 +1,15 @@
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from collections import OrderedDict
 import pandas as pd
-from django.shortcuts import render
-import matplotlib.pyplot as plt
-
-# Create your views here.
-df3 = pd.read_json(
-    'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/world-population-density.json')
+import os
+import numpy as np
 
 
 def index(request):
-    nursingHome = pd.read_csv('https://data.ct.gov/resource/wyn3-qphu.csv', encoding='utf-8', na_values=None)
-
-    barplot = nursingHome[['town', nursingHome.columns[4], nursingHome.columns[5], nursingHome.columns[6],
-                           nursingHome.columns[7]]].groupby('town').sum().sort_values(by='licensed_beds',
-                                                                                      ascending=False)
-    barplot = barplot.reset_index()
-    barplot.columns = ['town', 'values', 'values1', 'values2', 'values3']
-    barplotval = barplot['values'].values.tolist()
-    barplotval1 = barplot['values1'].values.tolist()
-    barplotval2 = barplot['values2'].values.tolist()
-    barplotval3 = barplot['values3'].values.tolist()
-    towns = barplot['town'].values.tolist()
     DailyUpdate = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv', encoding='utf-8', na_values=None)
     value = DailyUpdate.loc[DailyUpdate['state'].isin(["Connecticut"])]
     value = value[['state', value.columns[2], value.columns[3], value.columns[4],
-                        value.columns[5], value.columns[6]]]
-
-    allData = []
-    for i in range(value.shape[0]):
-        temp = value.iloc[i]
-        allData.append(dict(temp))
-
-
-    showNursing = 'True'
-    context = {'data' : allData, 'showNursing':showNursing }
-    return render(request, 'index.html', context)
-
-def index1(request):
-    DailyUpdate = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv', encoding='utf-8', na_values=None)
-    value = DailyUpdate.loc[DailyUpdate['state'].isin(["Connecticut"])]
-
-    value = value[[ value.columns[0], 'state', value.columns[2], value.columns[3], value.columns[4],
                         value.columns[5], value.columns[6]]]
 
     allData = []
@@ -57,8 +27,6 @@ def datasets(request, town_selection):
     barplot = nursingHome[['town', nursingHome.columns[4], nursingHome.columns[5], nursingHome.columns[6],
                            nursingHome.columns[7]]].groupby('town').sum().sort_values(by='town',
                                                                                       ascending=True)
-
-
     barplot = barplot.reset_index()
     barplot.columns = ['town', 'licensed_beds', 'residents_with_covid', 'covid_19_associated_lab_confirmed', 'covid_19_associated_deaths_probable']
     towns = barplot['town'].values.tolist()
@@ -95,6 +63,50 @@ def datasets1(request):
     towns = barplot['town'].values.tolist()
     context = {'town': towns,'showNursing': showNursing, 'showTownSelection':showTownSelection, 'town_selection':town_selection}
     return render(request, 'index2.html', context)
+
+def maps(request):
+    DailyUpdate = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv',
+                              encoding='utf-8', na_values=None)
+    value = DailyUpdate.loc[DailyUpdate['state'].isin(["Connecticut"])]
+    value = value[['state', value.columns[2], value.columns[3], value.columns[4],
+                   value.columns[5], value.columns[6]]]
+
+    allData = []
+    for i in range(value.shape[0]):
+        temp = value.iloc[i]
+        allData.append(dict(temp))
+    maps_selection ='True'
+    context = {'allData': allData, 'maps': maps_selection}
+    return render(request, 'maps.html', context)
+
+
+
+def vaccination(request):
+    vaccine = pd.read_csv('https://data.ct.gov/resource/pdqi-ds7f.csv', encoding='utf-8', na_values=None)
+    vaccine = vaccine.groupby('county').sum()
+    vaccine = vaccine.reset_index()
+    barplot = vaccine[['county', 'estimated_population', 'first_doses', 'estimated_population_aged_65_to_74',
+                       'estimated_population_aged_75_and_above', 'first_doses_administered_age_65_to_74',
+                       'first_doses_administered_age_75_and_over']]
+    barplot1 = barplot['county'].values.tolist()
+    barplot2 = barplot['estimated_population'].values.tolist()
+    barplot3 = barplot['first_doses'].values.tolist()
+    barplot4 = barplot['estimated_population_aged_65_to_74'].values.tolist()
+    barplot5 = barplot['estimated_population_aged_75_and_above'].values.tolist()
+    barplot6 = barplot['first_doses_administered_age_65_to_74'].values.tolist()
+    barplot7 = barplot['first_doses_administered_age_75_and_over'].values.tolist()
+
+    allData = []
+    for i in range(barplot.shape[0]):
+        temp = barplot.iloc[i]
+        allData.append(dict(temp))
+    allData
+
+    vaccination ='True'
+    context = {'vaccination': vaccination, 'allData': allData, 'county' :barplot1,  'barplot2' :barplot2, 'barplot3' :barplot3,'barplot4' :barplot4,
+               'barplot5': barplot5, 'barplot6' :barplot6, 'barplot7' :barplot7 }
+    return render(request, 'vaccinationbyCounty.html', context)
+
 
 def datasetAgeGenderEthnicity(request,selection):
     raceData = pd.read_csv('https://data.ct.gov/resource/7rne-efic.csv', encoding='utf-8', na_values=None)
@@ -164,3 +176,8 @@ def datasetAgeGenderEthnicity(request,selection):
 
 def ageGenderEthnicityView(request):
     return render(request, 'AgeGenderEthnicityCases.html')
+
+
+def redirect_view(request):
+    response = redirect('/Home-success/')
+    return response
