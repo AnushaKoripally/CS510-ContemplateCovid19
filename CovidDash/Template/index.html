@@ -1,190 +1,45 @@
+{% extends 'base.html' %}
+{% block content %}
 <html>
-
-<meta charset="utf-8">
-
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<script src="https://d3js.org/d3.v4.js"></script>
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-<head>
-    <div class="header">
-        <title>Contemplate COVID-19</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </div>
-    <style>
-            /* Style the body */
-            body {
-              font-family: Arial;
-              margin: 1;
-            }
-
-            /* Header/Logo Title */
-            .header {
-              height: 60px;
-              width: 100%;
-              color: lightblue;
-              font-size: 20px;
-              text-transform: uppercase;
-              background-image: url(https://www.redcortex.co.uk/app/uploads/2020/02/Health-2.jpg);
-              background-size: contain;
-              background-repeat: repeat;
-            }
-
-                        /* The sidebar menu */
-            .sidebar {
-              height: 100%; /* 100% Full-height */
-              width: 0; /* 0 width - change this with JavaScript */
-              position: fixed; /* Stay in place */
-              z-index: 1; /* Stay on top */
-              top: 0;
-              left: 0;
-              background-color: #111; /* Black*/
-              overflow-x: hidden; /* Disable horizontal scroll */
-              padding-top: 60px; /* Place content 60px from the top */
-              transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
-            }
-
-            /* The sidebar links */
-            .sidebar a {
-              padding: 8px 8px 8px 32px;
-              text-decoration: none;
-              font-size: 20px;
-              color: #818181;
-              display: block;
-              transition: 0.3s;
-            }
-
-            /* When you mouse over the navigation links, change their color */
-            .sidebar a:hover {
-              color: #f1f1f1;
-            }
-
-            /* Position and style the close button (top right corner) */
-            .sidebar .closebtn {
-              position: absolute;
-              top: 0;
-              right: 25px;
-              font-size: 36px;
-              margin-left: 50px;
-            }
-
-            /* The button used to open the sidebar */
-            .openbtn {
-              font-size: 20px;
-              cursor: pointer;
-              background-color: #111;
-              color: lightblue;
-              padding: 10px 15px;
-              border: none;
-            }
-
-            .openbtn:hover {
-              background-color: #444;
-            }
-
-            /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-            #main {
-              transition: margin-left .5s; /* If you want a transition effect */
-              padding: 20px;
-            }
-
-            /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
-            @media screen and (max-height: 450px) {
-              .sidebar {padding-top: 15px;}
-              .sidebar a {font-size: 18px;}
-            }
-
-            .title {
-               background: black;
-               border-radius: 6px 6px;
-            }
-
-            .tabtext {
-            color: black;
-            font-family: arial, sans-serif;
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 2px;
-            margin-left: 200px;
-            margin-bottom: 30px;
-            }
-
-            .screenbg{
-                height: 560px;
-                background-image: linear-gradient(lightblue, lightgrey);
-                color: 1;
-            }
-
-
-    </style>
-</head>
 <body>
-<div class="header">
-    <h1 class="title" align="center">Contemplate Covid-19</h1>
-</div>
 
-<div >
-    <button class="openbtn" onclick="openNav()" align="left">&#9776; View Statistics</button>
-    <div id="main">
-        <h1 align="center"> Daily Covid-19 Report </h1>
-        <div id="mySidebar" class="sidebar">
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-
-            <form method="post" enctype="multipart/form-data" action="Home" action="NursingHome">
-                <a class="active" href="Home"><i class="fa fa-fw fa-home"></i>Home</a>
-                <a href="VaccinationbyCounty">Vaccination by County</a>
-            <a class="active" href="NursingHome">Cases by Nursing Homes</a>
-             <a href="CasesbyCounty">Cases by County</a>
-            <a href="casesByAgeGenderEthnicity">Cases by Age, Gender and Ethnicity</a>
-
-                <p id="demo"></p>
-            </form>
-        </div>
-    </div>
-
+  <div>
     {% if showNursing == 'True'%}
     <div>
-        <table align="center" border="2" cellpadding="5" style="width:50%" height="10" bgcolor="teal">
+      <table align="center" border="2" cellpadding="5" style="width:57.5%" height="10" bgcolor="teal">
 
-            <td class="tabtext"> Covid-19 Daily Update</td>
+        <td class="tabtext"> Covid-19 Daily Update</td>
 
-        </table>
+      </table>
 
-        <table align="center" border="2" cellpadding="5" style="width:50%">
+      <table align="center" border="2" cellpadding="5" style="width:50%">
 
-            <td bgcolor="white">STATE</td>
+        <td bgcolor="white">STATE</td>
 
-            <td bgcolor="white">FIPS</td>
-            <td bgcolor="white">CASES</td>
-            <td bgcolor="white">DEATHS</td>
-            <td bgcolor="white">CONFIRMED_CASES</td>
-            <td bgcolor="white">CONFIRMED_DEATHS</td>
-            {% for i in data%}
+        <td bgcolor="white">FIPS</td>
+        <td bgcolor="white">CASES</td>
+        <td bgcolor="white">DEATHS</td>
+        <td bgcolor="white">CONFIRMED_CASES</td>
+        <td bgcolor="white">CONFIRMED_DEATHS</td>
+        {% for i in data%}
 
-            <tr>
-                <td>{{i.state}}</td>
+        <tr>
+          <td>{{i.state}}</td>
 
-                <td>{{i.fips}}</td>
-                <td>{{i.cases}}</td>
-                <td>{{i.deaths}}</td>
-                <td>{{i.confirmed_cases}}</td>
-                <td>{{i.confirmed_deaths}}</td>
-            </tr>
-            {% endfor %}
+          <td>{{i.fips}}</td>
+          <td>{{i.cases}}</td>
+          <td>{{i.deaths}}</td>
+          <td>{{i.confirmed_cases}}</td>
+          <td>{{i.confirmed_deaths}}</td>
+        </tr>
+        {% endfor %}
 
-        </table>
+      </table>
     </div>
 
     {% elif showNursing == 'False' %}
     <div>
-        <canvas id="myChart1" width="400" height="200"></canvas>
+      <canvas id="myChart1" width="400" height="200"></canvas>
     </div>
 
     </select>
@@ -193,21 +48,23 @@
     {%endif%}
 
 
-</div>
+  </div>
 
 </body>
 <script>
 
-     function openNav() {
-      document.getElementById("mySidebar").style.width = "250px";
-      document.getElementById("main").style.marginLeft = "250px";
-    }
+  function openNav() {
+    document.getElementById("mySidebar").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+  }
 
-    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
-    function closeNav() {
-      document.getElementById("mySidebar").style.width = "0";
-      document.getElementById("main").style.marginLeft = "0";
-    }
+  /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
+  function closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+  }
 
 </script>
+{% endblock %}
+
 </html>
