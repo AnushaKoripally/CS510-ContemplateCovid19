@@ -124,7 +124,7 @@ def datasetAgeGenderEthnicity(request,selection):
     barplotValOther = barplot[2:3].values.tolist().pop(0)
     barplotValOther = [x for x in barplotValOther if str(x) != 'Other']
     genderLabels = ['total_cases','confirmed_cases','total_deaths','confirmed_deaths']
-
+    metrics = ['Age','Gender','Ethnicity']
     barplotage = ageData[['agegroups',ageData.columns[3],ageData.columns[4],ageData.columns[7],ageData.columns[8]]].groupby('agegroups').sum().sort_values(by='agegroups')
     barplotage = barplotage.reset_index()
     barplotage1 = barplotage[barplotage.columns[1]].values.tolist()
@@ -158,7 +158,7 @@ def datasetAgeGenderEthnicity(request,selection):
     print(barplotrace3)
 
 
-    context = {'selection': selection, 'barplotValMale':barplotValMale, 'barplotValFemale':barplotValFemale,'barplotValOther':barplotValOther,'labels':genderLabels,
+    context = {'metrics':metrics, 'selection': selection, 'barplotValMale':barplotValMale, 'barplotValFemale':barplotValFemale,'barplotValOther':barplotValOther,'labels':genderLabels,
                'barplotage1':barplotage1,'barplotage2':barplotage2,'barplotage3':barplotage3,'barplotage4':barplotage4,'agesGrouped':agesGrouped,
                'barplotrace2':barplotrace2, 'barplotrace3':barplotrace3,'racesGrouped':racesGrouped}
 

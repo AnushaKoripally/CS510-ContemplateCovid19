@@ -133,9 +133,13 @@
 
         <h1> Cases by Age Gender and Ethnicity </h1>
         <select class="form-control browser-default dropdown" id="dd" onchange="selection()">
-            <option value='Age' selected="selected">Age</option>
-            <option value='Gender' selected="selected">Gender</option>
-            <option value='Ethnicity' selected="selected">Ethnicity</option>
+            {% for i in metrics %}
+            {% if selection == i %}
+            <option value={{i}} selected>{{i|safe}}</option>
+            {% else %}
+            <option value={{i}}>{{i|safe}}</option>
+            {%endif%}
+            {% endfor %}
         </select>
 
         <div id="mySidebar" class="sidebar">
@@ -160,7 +164,7 @@
         </div>
         {% elif selection == 'Ethnicity' %}
         <div>
-            <canvas id="raceChart" width="400" height="100"></canvas>
+            <canvas id="raceChart" width="300" height="100"></canvas>
         </div>
 
         {% endif %}
