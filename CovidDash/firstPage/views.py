@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from collections import OrderedDict
 import pandas as pd
 import os
 import numpy as np
@@ -64,29 +65,21 @@ def datasets1(request):
     return render(request, 'index2.html', context)
 
 def maps(request):
+    DailyUpdate = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv',
+                              encoding='utf-8', na_values=None)
+    value = DailyUpdate.loc[DailyUpdate['state'].isin(["Connecticut"])]
+    value = value[['state', value.columns[2], value.columns[3], value.columns[4],
+                   value.columns[5], value.columns[6]]]
+
+    allData = []
+    for i in range(value.shape[0]):
+        temp = value.iloc[i]
+        allData.append(dict(temp))
     maps_selection ='True'
-    context = {'maps': maps_selection}
+    context = {'allData': allData, 'maps': maps_selection}
     return render(request, 'maps.html', context)
 
-def casesbyagegenderrace(request):
-    age = pd.read_csv('https://data.ct.gov/resource/ypz6-8qyf.csv', encoding='utf-8', na_values=None)
-    gender = pd.read_csv('https://data.ct.gov/resource/7rne-efic.csv', encoding='utf-8', na_values=None)
-    ethnicity = pd.read_csv('https://data.ct.gov/resource/qa53-fghg.csv', encoding='utf-8', na_values=None)
 
-    barplotage = age[['agegroups', 'totalcases', 'confirmedcases', 'totaldeaths', 'confirmeddeaths']].groupby('agegroups').sum()
-    #barplotgender = gender[['gender', 'totalcases', 'confirmedcases', 'totaldeaths', 'confirmeddeaths']].groupby('gender').sum()
-    #barplotEthnicity= ethnicity[['race/ethnicity', 'totalcases', 'totalpopulation', 'totaldeaths', 'confirmeddeaths']].groupby('race/ethnicity').sum()
-    barplotage = barplotage.reset_index()
-    Agegroup = age['agegroups'].drop_duplicates()
-    Agegroup.tolist()
-    TotalCases = barplotage['totalcases'].values.tolist()
-    Confirmedcases = barplotage['confirmedcases'].values.tolist()
-    Totaldeaths = barplotage['totaldeaths'].values.tolist()
-    Confirmeddeaths = barplotage['confirmeddeaths'].values.tolist()
-    casesbyagegenderrace = 'True'
-
-    context = {'casesbyagegenderrace' : casesbyagegenderrace, 'AgeGroups': Agegroup, 'TotalCases' : TotalCases, 'Confirmedcases' : Confirmedcases, 'Totaldeaths' : Totaldeaths, 'Confirmeddeaths' : Confirmeddeaths  }
-    return render(request, 'AgeGenderEthnicitycases.html', context)
 
 def vaccination(request):
     vaccine = pd.read_csv('https://data.ct.gov/resource/pdqi-ds7f.csv', encoding='utf-8', na_values=None)
@@ -108,13 +101,7 @@ def vaccination(request):
         temp = barplot.iloc[i]
         allData.append(dict(temp))
     allData
-    print(barplot2)
-    print(barplot3)
-    print(barplot4)
-    print(barplot5)
-    print(barplot6)
-    print(barplot7)
-    print(barplot1)
+
     vaccination ='True'
     context = {'vaccination': vaccination, 'allData': allData, 'county' :barplot1,  'barplot2' :barplot2, 'barplot3' :barplot3,'barplot4' :barplot4,
                'barplot5': barplot5, 'barplot6' :barplot6, 'barplot7' :barplot7 }

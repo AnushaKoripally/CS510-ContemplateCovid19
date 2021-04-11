@@ -1,7 +1,7 @@
 <html>
 
 <meta charset="utf-8">
-
+     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <!-- Load d3.js -->
 
   <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
@@ -10,19 +10,24 @@
 <script src="https://d3js.org/d3.v4.js"></script>
 
 
-
 <!-- Flag sprites service provided by Martijn Lafeber, https://github.com/lafeber/world-flags-sprite/blob/master/LICENSE -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <head>
+
     <div class="header">
         <title>Contemplate COVID-19</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </div>
+
+      {% load static %}
+
+    <script src="{% static '/js/mapdata.js' %}" type="text/javascript"></script>
+     <script src="{% static '/js/statemap.js' %}" type="text/javascript"></script>
+
     <style>
             /* Style the body */
             body {
@@ -137,7 +142,7 @@
 #myChart {
   height: 100%;
   width: 100%;
-  min-height: 150px;
+  min-height: 100px;
 }
 
 .zc-ref {
@@ -146,6 +151,7 @@
 
 
      </style>
+
 </head>
 <body>
 <div class="header">
@@ -175,10 +181,11 @@
 
     </div>
  {% if maps == 'True' %}
-      <div id="myChart"><a class="zc-ref" href="https://www.zingchart.com">Powered by ZingChart</a></div>
+       <div id="map" width="400" height="100"></div>
            {%endif%}
 </div>
 
+</div>
 
 </body>
 
@@ -202,22 +209,7 @@
 
 <script >
 
-zingchart.loadModules('maps, maps-usa_ct', function(e) {
-  zingchart.render({
-    id: 'myChart',
-    data: {
-      shapes: [{
-        type: 'zingchart.maps',
-        options: {
-          name: 'usa_ct',
-          scale: false
-        }
-      }]
-    },
-    height: 450,
-    width: 600
-  });
-});
+
 </script>
 
 
