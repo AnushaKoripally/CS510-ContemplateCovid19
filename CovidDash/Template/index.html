@@ -1,54 +1,64 @@
 {% extends 'base.html' %}
 {% block content %}
 <html>
+
+<meta charset="utf-8">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+<link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
 <body>
-<h1 align="center"> Daily Covid-19 Report </h1>
-  <div>
-    {% if showNursing == 'True'%}
-    <div>
-      <table align="center" border="2" cellpadding="5" style="width:57.5%" height="10" bgcolor="teal">
+<h1 align="left"> Daily Covid-19 Report </h1>
+{% if showNursing == 'True'%}
+<div>
+    <table align="left" border="2" cellpadding="5" style="width:50.5%" height="10" bgcolor="lightblue">
 
         <td class="tabtext"> Covid-19 Daily Update</td>
 
-      </table>
+    </table>
 
-      <table align="center" border="2" cellpadding="5" style="width:50%">
+    <table align="left" border="2" cellpadding="5" style="width:50%">
 
-        <td bgcolor="white">STATE</td>
+        <th bgcolor="white">STATE</th>
 
-        <td bgcolor="white">FIPS</td>
-        <td bgcolor="white">CASES</td>
-        <td bgcolor="white">DEATHS</td>
-        <td bgcolor="white">CONFIRMED_CASES</td>
-        <td bgcolor="white">CONFIRMED_DEATHS</td>
+        <th bgcolor="white">CASES</th>
+        <th bgcolor="white">HOSPITALIZED</th>
+        <th bgcolor="white">DEATHS</th>
+        <th bgcolor="white">CONFIRMED_DEATHS</th>
+        <th bgcolor="white">FIPS</th>
         {% for i in data%}
 
         <tr>
-          <td>{{i.state}}</td>
+            <td>{{i.state}}</td>
 
-          <td>{{i.fips}}</td>
-          <td>{{i.cases}}</td>
-          <td>{{i.deaths}}</td>
-          <td>{{i.confirmed_cases}}</td>
-          <td>{{i.confirmed_deaths}}</td>
+            <td>{{i.positive}}</td>
+            <td>{{i.hospitalized}}</td>
+            <td>{{i.death}}</td>
+            <td>{{i.deathConfirmed}}</td>
+            <td>{{i.fips}}</td>
         </tr>
         {% endfor %}
 
-      </table>
-    </div>
+    </table>
+</div>
 
-    {% elif showNursing == 'False' %}
-    <div>
-      <canvas id="myChart1" width="400" height="200"></canvas>
-    </div>
+<div style="position:right">
+    {% for i in data%}
 
-    </select>
-
-
-    {%endif%}
-
-
-  </div>
+    <h6 align="right">Total Tests: {{i.totalTestsViral}}</h6>
+    <h6 align="right">Positive Tests: {{i.positiveTestsViral}}</h6>
+    <h6 align="right">Negative Tests: {{i.negativeTestsViral}}</h6>
+    {% endfor %}
+</div>
+<br/><br/>
+<div>
+    <h1 align="left">Covid Trends</h1>
+    <canvas id="historyChart" width="300" height="100"></canvas>
+</div>
+{% endif %}
+</div>
 
 </body>
 <script>
@@ -63,6 +73,64 @@
     document.getElementById("mySidebar").style.width = "0";
     document.getElementById("main").style.marginLeft = "0";
   }
+
+  var ctx1 = document.getElementById('historyChart',);
+  if(ctx1!=null){
+  var ct1 = ctx1.getContext('2d');
+  var myChart1 = new Chart(ct1, {
+  type: 'line',
+  data: {
+  labels: {{newLabels|safe}},
+datasets: [
+  {
+    label: 'Total cases',
+    borderColor: 'Red',
+     data:{{totalcases|safe}}
+  },
+  {
+    label: 'Confirmed cases',
+     borderColor: 'orange',
+     data:{{confirmedcases|safe}}
+  },
+  {
+    label: 'Total Deaths',
+    borderColor: 'Yellow',
+     data:{{totaldeaths|safe}}
+  },
+  {
+    label: 'Confirmed Deaths',
+    borderColor: 'Green',
+     data:{{confirmeddeaths|safe}}
+  },
+  {
+    label: 'Hospitalized cases',
+    borderColor: 'Blue',
+     data:{{hospitalizedcases|safe}}
+  }
+]},
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+        }
+      }],
+    },
+    legend: {
+                position: 'bottom',
+              },
+    title: {
+                display: true,
+                position: 'bottom',
+                text: 'Cases, Deaths and Hospitalizations in Connecticut'
+              }
+  }
+});
+}
+
+
+
+
 
 </script>
 {% endblock %}

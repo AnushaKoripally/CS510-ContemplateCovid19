@@ -27,14 +27,11 @@
 
         /* Header/Logo Title */
         .header {
-            height: 60px;
+            height: 0px;
             width: 100%;
             color: lightblue;
             font-size: 20px;
             text-transform: uppercase;
-            background-image: url(https://www.redcortex.co.uk/app/uploads/2020/02/Health-2.jpg);
-            background-size: contain;
-            background-repeat: repeat;
         }
 
         /* The sidebar menu */
@@ -55,7 +52,7 @@
         .sidebar a {
             padding: 8px 8px 8px 32px;
             text-decoration: none;
-            font-size: 20px;
+            font-size: 18px;
             color: #818181;
             display: block;
             transition: 0.3s;
@@ -110,6 +107,7 @@
             background: black;
             border-radius: 6px 6px;
         }
+
     </style>
 </head>
 
@@ -117,36 +115,40 @@
 <div class="header">
     <h1 class="title" align="center">Contemplate Covid-19</h1>
 </div>
- <div>
-        <button class="openbtn" onclick="openNav()" align="left">&#9776; View Statistics</button>
-        <div id="main">
+<div>
+    <button class="openbtn" onclick="openNav()" align="left">&#9776; View Statistics</button>
+    <div id="main">
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
 
-            <div id="mySidebar" class="sidebar">
-                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-
-                <form method="post" enctype="multipart/form-data" action="Home" action="NursingHome">
-                    <a class="active" href="Home"><i class="fa fa-fw fa-home"></i>Home</a>
-                    <a href="VaccinationbyCounty">Vaccination by County</a>
-                    <a class="active" href="NursingHome">Cases by Nursing Homes</a>
-                    <a href="CasesbyCounty">Cases by County</a>
-                    <a href="casesByAgeGenderEthnicity">Cases by Age, Gender and Ethnicity</a>
-
-                    <p id="demo"></p>
-                </form>
+        <form method="post" enctype="multipart/form-data" action="Home">
+            <a class="active" href="Home">Home<i class="fa fa-fw fa-home"></i></a>
+            <a href="VaccinationbyCounty">Vaccinations</a>
+            <div style="position:relative;top:10px;bottom:40px;left:30px;">
+                <h5 style="color:White;">Browse Cases</h5>
+                <a href="CasesbyCounty">County</a>
+                <a href="CasesbyTown">Town</a>
+                <a href="schools">Schools</a>
+                <a class="active" href="NursingHome">Nursing Homes</a>
+                <a href="casesByAgeGenderEthnicity">Age/Gender/Race</a>
+                <a href="100kPopulation">100k population</a>
+                <a href="specimenCollection">Specimen collection</a>
             </div>
-        </div>
-
-        <div class="container">
-            {% block content %}
-            {% endblock %}
-          </div>
+            <p id="demo"></p>
+        </form>
     </div>
+    </div>
+    <div class="container" style="position:relative;left:40px;">
+        {% block content %}
+        {% endblock %}
+    </div>
+</div>
 </body>
 <script>
 
     function openNav() {
-        document.getElementById("mySidebar").style.width = "250px";
-        document.getElementById("main").style.marginLeft = "250px";
+        document.getElementById("mySidebar").style.width = "230px";
+        document.getElementById("main").style.marginLeft = "230px";
     }
 
     /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
@@ -154,6 +156,7 @@
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById("main").style.marginLeft = "0";
     }
+
 
 </script>
 </html>
