@@ -7,19 +7,55 @@ import numpy as np
 
 
 def index(request):
-    DailyUpdate = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv', encoding='utf-8', na_values=None)
-    value = DailyUpdate.loc[DailyUpdate['state'].isin(["Connecticut"])]
-    value = value[['state', value.columns[2], value.columns[3], value.columns[4],
-                        value.columns[5], value.columns[6]]]
-
+    DailyUpdate = pd.read_csv('https://api.covidtracking.com/v1/states/current.csv', encoding='utf-8', na_values=None)
+    value = DailyUpdate.loc[DailyUpdate['state'].isin(["CT"])]
+    value = value[['state', value.columns[2], value.columns[19], value.columns[18], value.columns[26],value.columns[40],
+                        value.columns[22],value.columns[23], value.columns[24]]]
+    print(value)
     allData = []
     for i in range(value.shape[0]):
         temp = value.iloc[i]
         allData.append(dict(temp))
 
+    historicalData = pd.read_csv('https://data.ct.gov/resource/rf3k-f8fg.csv', encoding='utf-8', na_values=None)
+    lineplot = historicalData[['date',historicalData.columns[3],historicalData.columns[4],historicalData.columns[6],historicalData.columns[7],historicalData.columns[8]]].groupby('date').sum().sort_values(by='date')
+    lineplot = lineplot.reset_index()
+    lineplot['date']= pd.to_datetime(lineplot['date'])
+    result = lineplot.groupby([lineplot['date'].dt.year, lineplot['date'].dt.month], as_index=False).agg({'totalcases':sum,'confirmedcases':sum,'totaldeaths':sum,'confirmeddeaths':sum,'hospitalizedcases':sum})
+    totalcases=result[result.columns[0]].values.tolist()
+    confirmedcases=result[result.columns[1]].values.tolist()
+    totaldeaths=result[result.columns[2]].values.tolist()
+    confirmeddeaths=result[result.columns[3]].values.tolist()
+    hospitalizedcases=result[result.columns[4]].values.tolist()
+    print(result)
+    newLabels = ["Mar 2020"]
+    array_length = len(result)
+    for index in range(array_length):
+        newLabels[0] == "Mar 2020"
+        if index==1: newLabels.append("Apr 2020")
+        elif index==2: newLabels.append("May 2020")
+        elif index==3: newLabels.append("Jun 2020")
+        elif index==4: newLabels.append("Jul 2020")
+        elif index==5: newLabels.append("Aug 2020")
+        elif index==6: newLabels.append("Sept 2020")
+        elif index==7: newLabels.append("Oct 2020")
+        elif index==8: newLabels.append("Nov 2020")
+        elif index==9: newLabels.append("Dec 2020")
+        elif index==10: newLabels.append("Jan 2021")
+        elif index==11: newLabels.append("Feb 2021")
+        elif index==12: newLabels.append("Mar 2021")
+        elif index==13: newLabels.append("Apr 2021")
+        elif index==14: newLabels.append("May 2021")
+        elif index==15: newLabels.append("Jun 2021")
+        elif index==16: newLabels.append("Jul 2021")
+        elif index==17: newLabels.append("Aug 2021")
+        elif index==18: newLabels.append("Sept 2021")
+        elif index==19: newLabels.append("Oct 2021")
 
+    print(newLabels)
     showNursing = 'True'
-    context = {'data' : allData, 'showNursing':showNursing }
+    context = {'data' : allData, 'showNursing':showNursing, 'newLabels':newLabels, 'totalcases':totalcases, 'confirmedcases':confirmedcases,
+               'totaldeaths':totaldeaths,'confirmeddeaths':confirmeddeaths,'hospitalizedcases':hospitalizedcases }
     return render(request, 'index.html', context)
 
 def datasets(request, town_selection):
@@ -181,3 +217,8 @@ def ageGenderEthnicityView(request):
 def redirect_view(request):
     response = redirect('/Home-success/')
     return response
+
+def historicalData(request):
+
+    context = {}
+    return render(request, 'index.html', context)
