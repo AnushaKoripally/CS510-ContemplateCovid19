@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+
+<meta charset="utf-8">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+<link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+
+<body>
+<div>
+    <div id="main">
+
+    <h1> Cases by Town </h1>
+
+
+{% if townMap == 'True' %}
+       <div id="myChart" width="400" height="100"></div>
+           {%endif%}
+
+</div>
+</div>
+</body>
+<script>
+
+  zingchart.MODULESDIR = 'https://cdn.zingchart.com/modules/';
+zingchart.loadModules('maps, maps-geojson', function(e) { //Required. Load the maps-geojson module.
+  zingchart.maps.loadGeoJSON({ //Required. Add the loadGeoJSON() method.
+    id: 'customMapName', //Required. Provide the id name, which will  correspond to the name below.
+    url: 'http://localhost:8887/static/TownMapping.geojson', //Required. Provide the GeoJSON file source.
+    //Source: https://github.com/blackmad/neighborhoods/blob/master/gn-san-diego.geojson?short_path=c5454cc
+    mappings: { //Recommended. Allows you to property names from the GeoJSON file to ZingChart.
+      id: 'NAME',
+      name: 'NAME'
+    },
+    style: { //Optional.
+
+    },
+    callback: function() { //Recommended. Use the function to render the map.
+      zingchart.render({
+        id: 'myChart',
+        data: {
+          shapes: [{
+            type: 'zingchart.maps',
+            options: {
+              name: 'customMapName', //This corresponds with the id above.
+
+              style: {
+                controls: {
+                  visible: false
+                },
+                label: {
+                  visible: false
+                },
+
+             group: 1,
+            "STATEFP": "09",
+            backgroundColor: '#BBDEFB',
+            hoverState: {
+              backgroundColor: '#64B5F6'
+            }
+
+              },
+              zoom: false,
+              zooming: false,
+              panning: false,
+            }
+          }]
+        },
+        height: '100%',
+        width: '100%'
+      });
+    }
+  });
+});
+</script>
+      {% endblock %}
+</html>

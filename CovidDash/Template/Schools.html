@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+
+<meta charset="utf-8">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+<link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+<body>
+<h1> School Cases </h1>
+<div>
+    {% if schools == 'True' %}
+    <div style="position:relative;top:50px;">
+        <canvas id="myChart" width="5" height="2"></canvas>
+    </div>
+    {%endif%}
+
+</div>
+</body>
+
+<script>
+
+    var ctx = document.getElementById('myChart'); // node
+var ctx = document.getElementById('myChart').getContext('2d'); // 2d context
+
+   var myChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: {{newLabels|safe}},
+    datasets: [
+     {
+      label: 'Staff Cases',
+      data: {{staffcases|safe}},
+      backgroundColor: 'skyblue'
+    },
+    {
+      label: 'Student Cases',
+      data: {{studentcases|safe}},
+      backgroundColor: 'lightpink'
+    }]
+  },
+  options: {  }
+});
+
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+{% endblock %}
+</html>
