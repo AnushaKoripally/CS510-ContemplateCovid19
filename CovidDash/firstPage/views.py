@@ -5,7 +5,6 @@ import pandas as pd
 import os
 import numpy as np
 
-
 def index(request):
     DailyUpdate = pd.read_csv('https://api.covidtracking.com/v1/states/current.csv', encoding='utf-8', na_values=None)
     value = DailyUpdate.loc[DailyUpdate['state'].isin(["CT"])]
@@ -57,6 +56,8 @@ def index(request):
     context = {'data' : allData, 'showNursing':showNursing, 'newLabels':newLabels, 'totalcases':totalcases, 'confirmedcases':confirmedcases,
                'totaldeaths':totaldeaths,'confirmeddeaths':confirmeddeaths,'hospitalizedcases':hospitalizedcases }
     return render(request, 'index.html', context)
+
+
 
 def datasets(request, town_selection):
     nursingHome = pd.read_csv('https://data.ct.gov/resource/wyn3-qphu.csv', encoding='utf-8', na_values=None)
@@ -115,6 +116,21 @@ def maps(request):
     context = {'allData': allData, 'maps': maps_selection}
     return render(request, 'maps.html', context)
 
+
+def townMap(request):
+    DailyUpdate = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv',
+                              encoding='utf-8', na_values=None)
+    value = DailyUpdate.loc[DailyUpdate['state'].isin(["Connecticut"])]
+    value = value[['state', value.columns[2], value.columns[3], value.columns[4],
+                   value.columns[5], value.columns[6]]]
+
+    allData = []
+    for i in range(value.shape[0]):
+        temp = value.iloc[i]
+        allData.append(dict(temp))
+    townMap ='True'
+    context = {'allData': allData, 'townMap': townMap}
+    return render(request, 'TownMaps.html', context)
 
 
 def vaccination(request):
@@ -213,12 +229,66 @@ def datasetAgeGenderEthnicity(request,selection):
 def ageGenderEthnicityView(request):
     return render(request, 'AgeGenderEthnicityCases.html')
 
+def schoolCases(request):
+    school = pd.read_csv('https://data.ct.gov/resource/ehua-hw73.csv', encoding='utf-8', na_values=None)
+    data = school.groupby('date').sum().sort_values(by='date')
+    data = data.reset_index()
+    data['date'] = pd.to_datetime(data['date'])
+    result = data.groupby([data['date'].dt.year, data['date'].dt.month], as_index=False).agg(
+        {'staffcases': sum, 'studentcases': sum})
+    result
+
+    staffcases = result[result.columns[0]].values.tolist()
+    studentcases = result[result.columns[1]].values.tolist()
+    newLabels = ["Mar 2020"]
+    array_length = len(result)
+    for index in range(array_length):
+        newLabels[0] == "Mar 2020"
+        if index == 1:
+            newLabels.append("Apr 2020")
+        elif index == 2:
+            newLabels.append("May 2020")
+        elif index == 3:
+            newLabels.append("Jun 2020")
+        elif index == 4:
+            newLabels.append("Jul 2020")
+        elif index == 5:
+            newLabels.append("Aug 2020")
+        elif index == 6:
+            newLabels.append("Sept 2020")
+        elif index == 7:
+            newLabels.append("Oct 2020")
+        elif index == 8:
+            newLabels.append("Nov 2020")
+        elif index == 9:
+            newLabels.append("Dec 2020")
+        elif index == 10:
+            newLabels.append("Jan 2021")
+        elif index == 11:
+            newLabels.append("Feb 2021")
+        elif index == 12:
+            newLabels.append("Mar 2021")
+        elif index == 13:
+            newLabels.append("Apr 2021")
+        elif index == 14:
+            newLabels.append("May 2021")
+        elif index == 15:
+            newLabels.append("Jun 2021")
+        elif index == 16:
+            newLabels.append("Jul 2021")
+        elif index == 17:
+            newLabels.append("Aug 2021")
+        elif index == 18:
+            newLabels.append("Sept 2021")
+        elif index == 19:
+            newLabels.append("Oct 2021")
+    schools = 'True'
+    fields = ['staffcases', 'studentcases']
+    context = { 'staffcases': staffcases, 'newLabels':newLabels, 'studentcases' : studentcases, 'schools': schools}
+
+    return render(request, 'Schools.html', context)
+
 
 def redirect_view(request):
     response = redirect('/Home-success/')
     return response
-
-def historicalData(request):
-
-    context = {}
-    return render(request, 'index.html', context)
