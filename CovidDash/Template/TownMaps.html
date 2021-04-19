@@ -56,12 +56,17 @@ zingchart.loadModules('maps, maps-geojson', function(e) { //Required. Load the m
                   visible: false
                 },
 
-             group: 1,
-            "STATEFP": "09",
-            backgroundColor: '#BBDEFB',
-            hoverState: {
-              backgroundColor: '#64B5F6'
-            }
+           items: {
+                  Cheshire: {
+                    backgroundColor: 'red',
+                    label: {
+                     text: "Cheshire"
+                    },
+                     hoverState: {
+                  backgroundColor: '#E57373'
+                }
+                  }
+                }
 
               },
               zoom: false,
