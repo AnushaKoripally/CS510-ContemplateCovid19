@@ -34,7 +34,11 @@ urlpatterns = [
     url(r'^AgeGenderEthnicitySelection/(?P<selection>\w+)/$', views.datasetAgeGenderEthnicity,  name='AgeGenderEthnicitySelection'),
     # url(r'^TownSelection/(?P<town_selection>\w+)/$', views.datasets, name='TownSelection'),
     url(r'^TownSelection/(?P<town_selection>\w+)/$', views.datasets, name='TownSelection'),
-    re_path(r'^.*$', RedirectView.as_view(url='http://127.0.0.1:8000', permanent=False), name='index')
+    re_path(r'^.*/CasesbyTown', RedirectView.as_view(url='http://127.0.0.1:8000/CasesbyTown', permanent=False), name='index'),
+    re_path(r'^.*/NursingHome', RedirectView.as_view(url='http://127.0.0.1:8000/NursingHome', permanent=False), name='index'),
+    re_path(r'^.*/CasesbyCounty', RedirectView.as_view(url='http://127.0.0.1:8000/CasesbyCounty', permanent=False), name='index'),
+    re_path(r'^.*/VaccinationbyCounty', RedirectView.as_view(url='http://127.0.0.1:8000/VaccinationbyCounty', permanent=False), name='index'),
+    re_path(r'^.*/schools', RedirectView.as_view(url='http://127.0.0.1:8000/schools', permanent=False), name='index')
 ]
 
 
