@@ -240,48 +240,30 @@ def schoolCases(request):
 
     staffcases = result[result.columns[0]].values.tolist()
     studentcases = result[result.columns[1]].values.tolist()
-    newLabels = ["Mar 2020"]
+    newLabels = ["Sept 2020"]
     array_length = len(result)
     for index in range(array_length):
-        newLabels[0] == "Mar 2020"
+        newLabels[0] == "Sept 2020"
         if index == 1:
-            newLabels.append("Apr 2020")
-        elif index == 2:
-            newLabels.append("May 2020")
-        elif index == 3:
-            newLabels.append("Jun 2020")
-        elif index == 4:
-            newLabels.append("Jul 2020")
-        elif index == 5:
-            newLabels.append("Aug 2020")
-        elif index == 6:
-            newLabels.append("Sept 2020")
-        elif index == 7:
             newLabels.append("Oct 2020")
-        elif index == 8:
+        elif index == 2:
             newLabels.append("Nov 2020")
-        elif index == 9:
+        elif index == 3:
             newLabels.append("Dec 2020")
-        elif index == 10:
+        elif index == 4:
             newLabels.append("Jan 2021")
-        elif index == 11:
+        elif index == 5:
             newLabels.append("Feb 2021")
-        elif index == 12:
+        elif index == 6:
             newLabels.append("Mar 2021")
-        elif index == 13:
+        elif index == 7:
             newLabels.append("Apr 2021")
-        elif index == 14:
+        elif index == 8:
             newLabels.append("May 2021")
-        elif index == 15:
+        elif index == 9:
             newLabels.append("Jun 2021")
-        elif index == 16:
+        elif index == 10:
             newLabels.append("Jul 2021")
-        elif index == 17:
-            newLabels.append("Aug 2021")
-        elif index == 18:
-            newLabels.append("Sept 2021")
-        elif index == 19:
-            newLabels.append("Oct 2021")
     schools = 'True'
     fields = ['staffcases', 'studentcases']
     context = { 'staffcases': staffcases, 'newLabels':newLabels, 'studentcases' : studentcases, 'schools': schools}
