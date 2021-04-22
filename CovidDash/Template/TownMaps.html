@@ -14,68 +14,1628 @@
 <div>
     <div id="main">
 
-    <h1> Cases by Town </h1>
+        <h1> Cases by Town </h1>
 
 
-{% if townMap == 'True' %}
-       <div id="myChart" width="400" height="100"></div>
-           {%endif%}
+        {% if townMap == 'True' %}
+        <div id="myChart"></div>
+        {%endif%}
 
-</div>
+    </div>
 </div>
 </body>
 <script>
+    var request = new XMLHttpRequest();
+    request.open("GET", "https://data.ct.gov/resource/28fr-iqnx.csv", false);
+    request.send(null);
 
-  zingchart.MODULESDIR = 'https://cdn.zingchart.com/modules/';
-zingchart.loadModules('maps, maps-geojson', function(e) { //Required. Load the maps-geojson module.
-  zingchart.maps.loadGeoJSON({ //Required. Add the loadGeoJSON() method.
-    id: 'customMapName', //Required. Provide the id name, which will  correspond to the name below.
-    url: 'http://localhost:8887/static/TownMapping.geojson', //Required. Provide the GeoJSON file source.
-    //Source: https://github.com/blackmad/neighborhoods/blob/master/gn-san-diego.geojson?short_path=c5454cc
-    mappings: { //Recommended. Allows you to property names from the GeoJSON file to ZingChart.
-      id: 'NAME',
-      name: 'NAME'
-    },
-    style: { //Optional.
-
-    },
-    callback: function() { //Recommended. Use the function to render the map.
-      zingchart.render({
-        id: 'myChart',
-        data: {
-          shapes: [{
-            type: 'zingchart.maps',
-            options: {
-              name: 'customMapName', //This corresponds with the id above.
-
-              style: {
-                controls: {
-                  visible: false
-                },
-                label: {
-                  visible: false
-                },
-
-             group: 1,
-            "STATEFP": "09",
-            backgroundColor: '#BBDEFB',
-            hoverState: {
-              backgroundColor: '#64B5F6'
-            }
-
-              },
-              zoom: false,
-              zooming: false,
-              panning: false,
-            }
-          }]
-        },
-        height: '100%',
-        width: '100%'
-      });
+    var csvData = new Array();
+    var jsonObject = request.responseText.split(/\r?\n|\r/);
+    for (var i = 1; i < jsonObject.length; i++) {
+        csvData.push(jsonObject[i].split(','));
     }
-  });
-});
+
+    var newcsvData = new Array();
+    //newcsvData.push(csvData[0]);
+    for (var i = 0; i < 170; i++) {
+        newcsvData.push([csvData[i][2].replaceAll(/ +/g, ""), csvData[i][3], csvData[i][7]]);
+    }
+    var Cheshire = new Array;
+    var Derby = new Array;
+    var EastHaven = new Array;
+    var Canton = new Array;
+    var Seymour = new Array;
+    var Naugatuck = new Array;
+    var Woodbridge = new Array;
+    var Granby = new Array;
+    var Hampton = new Array;
+    var Westbrook = new Array;
+    var Countysubdivisions = new Array;
+    var DeepRiver = new Array;
+    var EastHaddam = new Array;
+    var EastHampton = new Array;
+    var Bozrah = new Array;
+    var Colchester = new Array;
+    var EastLyme = new Array;
+    var Franklin = new Array;
+    var Griswold = new Array;
+    var Groton = new Array;
+    var Lyme = new Array;
+    var Montville = new Array;
+    var NorthStonington = new Array;
+    var Norwich = new Array;
+    var Essex = new Array;
+    var Haddam = new Array;
+    var Killingworth = new Array;
+    var Preston = new Array;
+    var Middlefield = new Array;
+    var OldSaybrook = new Array;
+    var Portland = new Array;
+    var Middletown = new Array;
+    var Bolton = new Array;
+    var Ellington = new Array;
+    var Hebron = new Array;
+    var Somers = new Array;
+    var Stafford = new Array;
+    var Tolland = new Array;
+    var Union = new Array;
+    var Vernon = new Array;
+    var Willington = new Array;
+    var Litchfield = new Array;
+    var NewHartford = new Array;
+    var NewMilford = new Array;
+    var Norfolk = new Array;
+    var NorthCanaan = new Array;
+    var Sharon = new Array;
+    var Thomaston = new Array;
+    var Torrington = new Array;
+    var Warren = new Array;
+    var Washington = new Array;
+    var Watertown = new Array;
+    var Winchester = new Array;
+    var Woodbury = new Array;
+    var Wolcott = new Array;
+    var Sterling = new Array;
+    var Thompson = new Array;
+    var Woodstock = new Array;
+    var BeaconFalls = new Array;
+    var Salem = new Array;
+    var Sprague = new Array;
+    var Voluntown = new Array;
+    var Waterford = new Array;
+    var Putnam = new Array;
+    var Windham = new Array;
+    var Plymouth = new Array;
+    var Norwalk = new Array;
+    var Bethel = new Array;
+    var Bridgeport = new Array;
+    var Brookfield = new Array;
+    var Danbury = new Array;
+    var Darien = new Array;
+    var Easton = new Array;
+    var Fairfield = new Array;
+    var Greenwich = new Array;
+    var Monroe = new Array;
+    var NewCanaan = new Array;
+    var NewFairfield = new Array;
+    var Newtown = new Array;
+    var Ridgefield = new Array;
+    var Shelton = new Array;
+    var Sherman = new Array;
+    var Stamford = new Array;
+    var Stratford = new Array;
+    var Trumbull = new Array;
+    var Weston = new Array;
+    var Westport = new Array;
+    var Wilton = new Array;
+    var Redding = new Array;
+    var Middlebury = new Array;
+    var Barkhamsted = new Array;
+    var Marlborough = new Array;
+    var Avon = new Array;
+    var Berlin = new Array;
+    var Bloomfield = new Array;
+    var Bristol = new Array;
+    var Burlington = new Array;
+    var EastGranby = new Array;
+    var EastHartford = new Array;
+    var Enfield = new Array;
+    var Farmington = new Array;
+    var Glastonbury = new Array;
+    var Hartford = new Array;
+    var Hartland = new Array;
+    var Manchester = new Array;
+    var NewBritain = new Array;
+    var Newington = new Array;
+    var Plainville = new Array;
+    var Simsbury = new Array;
+    var Southington = new Array;
+    var SouthWindsor = new Array;
+    var WestHartford = new Array;
+    var Wethersfield = new Array;
+    var Windsor = new Array;
+    var WindsorLocks = new Array;
+    var Chester = new Array;
+    var EastWindsor = new Array;
+    var Killingly = new Array;
+    var Lebanon = new Array;
+    var Lisbon = new Array;
+    var RockyHill = new Array;
+    var Suffield = new Array;
+    var Cromwell = new Array;
+    var Durham = new Array;
+    var Ledyard = new Array;
+    var Hamden = new Array;
+    var Meriden = new Array;
+    var Andover = new Array;
+    var Columbia = new Array;
+    var Coventry = new Array;
+    var Mansfield = new Array;
+    var Roxbury = new Array;
+    var Salisbury = new Array;
+    var NewHaven = new Array;
+    var NorthBranford = new Array;
+    var NorthHaven = new Array;
+    var Orange = new Array;
+    var Wallingford = new Array;
+    var Waterbury = new Array;
+    var WestHaven = new Array;
+    var Bethlehem = new Array;
+    var Bridgewater = new Array;
+    var Canaan = new Array;
+    var Colebrook = new Array;
+    var Ashford = new Array;
+    var Brooklyn = new Array;
+    var Canterbury = new Array;
+    var Chaplin = new Array;
+    var Cornwall = new Array;
+    var Goshen = new Array;
+    var Harwinton = new Array;
+    var Kent = new Array;
+    var Morris = new Array;
+    var Eastford = new Array;
+    var Plainfield = new Array;
+    var Pomfret = new Array;
+    var Milford = new Array;
+    var Oxford = new Array;
+    var OldLyme = new Array;
+    var Stonington = new Array;
+    var Scotland = new Array;
+    var Madison = new Array;
+    var Southbury = new Array;
+    var Prospect = new Array;
+    var Clinton = new Array;
+    var NewLondon = new Array;
+    var Ansonia = new Array;
+    var Bethany = new Array;
+    var Branford = new Array;
+    var Guilford = new Array;
+
+    for (var i = 0; i < 170; i++) {
+        var k = newcsvData[i][0].replace(/\\"/g, '');
+        k = k.replace(/^["'](.+(?=["']$))["']$/, '$1');
+        if (k == 'Cheshire') {
+            Cheshire = newcsvData[i];
+        }
+        if (k == 'Derby') {
+            Derby = newcsvData[i];
+        }
+        if (k == 'EastHaven') {
+            EastHaven = newcsvData[i];
+        }
+        if (k == 'Canton') {
+            Canton = newcsvData[i];
+        }
+        if (k == 'Seymour') {
+            Seymour = newcsvData[i];
+        }
+        if (k == 'Naugatuck') {
+            Naugatuck = newcsvData[i];
+        }
+        if (k == 'Woodbridge') {
+            Woodbridge = newcsvData[i];
+        }
+        if (k == 'Granby') {
+            Granby = newcsvData[i];
+        }
+        if (k == 'Hampton') {
+            Hampton = newcsvData[i];
+        }
+        if (k == 'Westbrook') {
+            Westbrook = newcsvData[i];
+        }
+        if (k == 'Countysubdivisionsnotdefined') {
+            Countysubdivisions = newcsvData[i];
+        }
+        if (k == 'DeepRiver') {
+            DeepRiver = newcsvData[i];
+        }
+        if (k == 'EastHaddam') {
+            EastHaddam = newcsvData[i];
+        }
+        if (k == 'EastHampton') {
+            EastHampton = newcsvData[i];
+        }
+        if (k == 'Bozrah') {
+            Bozrah = newcsvData[i];
+        }
+        if (k == 'Colchester') {
+            Colchester = newcsvData[i];
+        }
+        if (k == 'EastLyme') {
+            EastLyme = newcsvData[i];
+        }
+        if (k == 'Franklin') {
+            Franklin = newcsvData[i];
+        }
+        if (k == 'Griswold') {
+            Griswold = newcsvData[i];
+        }
+        if (k == 'Groton') {
+            Groton = newcsvData[i];
+        }
+        if (k == 'OldLyme') {
+            OldLyme = newcsvData[i];
+        }
+        if (k == 'Montville') {
+            Montville = newcsvData[i];
+        }
+        if (k == 'NorthStonington') {
+            NorthStonington = newcsvData[i];
+        }
+        if (k == 'Norwich') {
+            Norwich = newcsvData[i];
+        }
+        if (k == 'Essex') {
+            Essex = newcsvData[i];
+        }
+        if (k == 'Haddam') {
+            Haddam = newcsvData[i];
+        }
+        if (k == 'Killingworth') {
+            Killingworth = newcsvData[i];
+        }
+        if (k == 'Preston') {
+            Preston = newcsvData[i];
+        }
+        if (k == 'Middlefield') {
+            Middlefield = newcsvData[i];
+        }
+        if (k == 'OldSaybrook') {
+            OldSaybrook = newcsvData[i];
+        }
+        if (k == 'Portland') {
+            Portland = newcsvData[i];
+        }
+        if (k == 'Middletown') {
+            Middletown = newcsvData[i];
+        }
+        if (k == 'Bolton') {
+            Bolton = newcsvData[i];
+        }
+        if (k == 'Ellington') {
+            Ellington = newcsvData[i];
+        }
+        if (k == 'Hebron') {
+            Hebron = newcsvData[i];
+        }
+        if (k == 'Somers') {
+            Somers = newcsvData[i];
+        }
+        if (k == 'Stafford') {
+            Stafford = newcsvData[i];
+        }
+        if (k == 'Tolland') {
+            Tolland = newcsvData[i];
+        }
+        if (k == 'Union') {
+            Union = newcsvData[i];
+        }
+        if (k == 'Vernon') {
+            Vernon = newcsvData[i];
+        }
+        if (k == 'Willington') {
+            Willington = newcsvData[i];
+        }
+        if (k == 'Litchfield') {
+            Litchfield = newcsvData[i];
+        }
+        if (k == 'NewHartford') {
+            NewHartford = newcsvData[i];
+        }
+        if (k == 'NewMilford') {
+            NewMilford = newcsvData[i];
+        }
+        if (k == 'Norfolk') {
+            Norfolk = newcsvData[i];
+        }
+        if (k == 'NorthCanaan') {
+            NorthCanaan = newcsvData[i];
+        }
+        if (k == 'Sharon') {
+            Sharon = newcsvData[i];
+        }
+        if (k == 'Thomaston') {
+            Thomaston = newcsvData[i];
+        }
+        if (k == 'Torrington') {
+            Torrington = newcsvData[i];
+        }
+        if (k == 'Warren') {
+            Warren = newcsvData[i];
+        }
+        if (k == 'Washington') {
+            Washington = newcsvData[i];
+        }
+        if (k == 'Watertown') {
+            Watertown = newcsvData[i];
+        }
+        if (k == 'Winchester') {
+            Winchester = newcsvData[i];
+        }
+        if (k == 'Woodbury') {
+            Woodbury = newcsvData[i];
+        }
+        if (k == 'Wolcott') {
+            Wolcott = newcsvData[i];
+        }
+        if (k == 'Sterling') {
+            Sterling = newcsvData[i];
+        }
+        if (k == 'Thompson') {
+            Thompson = newcsvData[i];
+        }
+        if (k == 'Woodstock') {
+            Woodstock = newcsvData[i];
+        }
+        if (k == 'BeaconFalls') {
+            BeaconFalls = newcsvData[i];
+        }
+        if (k == 'Salem') {
+            Salem = newcsvData[i];
+        }
+        if (k == 'Sprague') {
+            Sprague = newcsvData[i];
+        }
+        if (k == 'Voluntown') {
+            Voluntown = newcsvData[i];
+        }
+        if (k == 'Waterford') {
+            Waterford = newcsvData[i];
+        }
+        if (k == 'Putnam') {
+            Putnam = newcsvData[i];
+        }
+        if (k == 'Windham') {
+            Windham = newcsvData[i];
+        }
+        if (k == 'Plymouth') {
+            Plymouth = newcsvData[i];
+        }
+        if (k == 'Norwalk') {
+            Norwalk = newcsvData[i];
+        }
+        if (k == 'Bethel') {
+            Bethel = newcsvData[i];
+        }
+        if (k == 'Bridgeport') {
+            Bridgeport = newcsvData[i];
+        }
+        if (k == 'Brookfield') {
+            Brookfield = newcsvData[i];
+        }
+        if (k == 'Danbury') {
+            Danbury = newcsvData[i];
+        }
+        if (k == 'Darien') {
+            Darien = newcsvData[i];
+        }
+        if (k == 'Easton') {
+            Easton = newcsvData[i];
+        }
+        if (k == 'Fairfield') {
+            Fairfield = newcsvData[i];
+        }
+        if (k == 'Greenwich') {
+            Greenwich = newcsvData[i];
+        }
+        if (k == 'Monroe') {
+            Monroe = newcsvData[i];
+        }
+        if (k == 'NewCanaan') {
+            NewCanaan = newcsvData[i];
+        }
+        if (k == 'NewFairfield') {
+            NewFairfield = newcsvData[i];
+        }
+        if (k == 'Newtown') {
+            Newtown = newcsvData[i];
+        }
+        if (k == 'Ridgefield') {
+            Ridgefield = newcsvData[i];
+        }
+        if (k == 'Shelton') {
+            Shelton = newcsvData[i];
+        }
+        if (k == 'Sherman') {
+            Sherman = newcsvData[i];
+        }
+        if (k == 'Stamford') {
+            Stamford = newcsvData[i];
+        }
+        if (k == 'Stratford') {
+            Stratford = newcsvData[i];
+        }
+        if (k == 'Trumbull') {
+            Trumbull = newcsvData[i];
+        }
+        if (k == 'Weston') {
+            Weston = newcsvData[i];
+        }
+        if (k == 'Westport') {
+            Westport = newcsvData[i];
+        }
+        if (k == 'Wilton') {
+            Wilton = newcsvData[i];
+        }
+        if (k == 'Redding') {
+            Redding = newcsvData[i];
+        }
+        if (k == 'Middlebury') {
+            Middlebury = newcsvData[i];
+        }
+        if (k == 'Barkhamsted') {
+            Barkhamsted = newcsvData[i];
+        }
+        if (k == 'Marlborough') {
+            Marlborough = newcsvData[i];
+        }
+        if (k == 'Avon') {
+            Avon = newcsvData[i];
+        }
+        if (k == 'Berlin') {
+            Berlin = newcsvData[i];
+        }
+        if (k == 'Bloomfield') {
+            Bloomfield = newcsvData[i];
+        }
+        if (k == 'Bristol') {
+            Bristol = newcsvData[i];
+        }
+        if (k == 'Burlington') {
+            Burlington = newcsvData[i];
+        }
+        if (k == 'EastGranby') {
+            EastGranby = newcsvData[i];
+        }
+        if (k == 'EastHartford') {
+            EastHartford = newcsvData[i];
+        }
+        if (k == 'Enfield') {
+            Enfield = newcsvData[i];
+        }
+        if (k == 'Farmington') {
+            Farmington = newcsvData[i];
+        }
+        if (k == 'Glastonbury') {
+            Glastonbury = newcsvData[i];
+        }
+        if (k == 'Hartford') {
+            Hartford = newcsvData[i];
+        }
+        if (k == 'Hartland') {
+            Hartland = newcsvData[i];
+        }
+        if (k == 'Manchester') {
+            Manchester = newcsvData[i];
+        }
+        if (k == 'NewBritain') {
+            NewBritain = newcsvData[i];
+        }
+        if (k == 'Newington') {
+            Newington = newcsvData[i];
+        }
+        if (k == 'Plainville') {
+            Plainville = newcsvData[i];
+        }
+        if (k == 'Simsbury') {
+            Simsbury = newcsvData[i];
+        }
+        if (k == 'Southington') {
+            Southington = newcsvData[i];
+        }
+        if (k == 'SouthWindsor') {
+            SouthWindsor = newcsvData[i];
+        }
+        if (k == 'WestHartford') {
+            WestHartford = newcsvData[i];
+        }
+        if (k == 'Wethersfield') {
+            Wethersfield = newcsvData[i];
+        }
+        if (k == 'Windsor') {
+            Windsor = newcsvData[i];
+        }
+        if (k == 'WindsorLocks') {
+            WindsorLocks = newcsvData[i];
+        }
+        if (k == 'Chester') {
+            Chester = newcsvData[i];
+        }
+        if (k == 'EastWindsor') {
+            EastWindsor = newcsvData[i];
+        }
+        if (k == 'Killingly') {
+            Killingly = newcsvData[i];
+        }
+        if (k == 'Lebanon') {
+            Lebanon = newcsvData[i];
+        }
+        if (k == 'Lisbon') {
+            Lisbon = newcsvData[i];
+        }
+        if (k == 'RockyHill') {
+            RockyHill = newcsvData[i];
+        }
+        if (k == 'Suffield') {
+            Suffield = newcsvData[i];
+        }
+        if (k == 'Cromwell') {
+            Cromwell = newcsvData[i];
+        }
+        if (k == 'Durham') {
+            Durham = newcsvData[i];
+        }
+        if (k == 'Ledyard') {
+            Ledyard = newcsvData[i];
+        }
+        if (k == 'Hamden') {
+            Hamden = newcsvData[i];
+        }
+        if (k == 'Meriden') {
+            Meriden = newcsvData[i];
+        }
+        if (k == 'Andover') {
+            Andover = newcsvData[i];
+        }
+        if (k == 'Columbia') {
+            Columbia = newcsvData[i];
+        }
+        if (k == 'Coventry') {
+            Coventry = newcsvData[i];
+        }
+        if (k == 'Mansfield') {
+            Mansfield = newcsvData[i];
+        }
+        if (k == 'Roxbury') {
+            Roxbury = newcsvData[i];
+        }
+        if (k == 'Salisbury') {
+            Salisbury = newcsvData[i];
+        }
+        if (k == 'New Haven') {
+            NewHaven = newcsvData[i];
+        }
+        if (k == 'NorthBranford') {
+            NorthBranford = newcsvData[i];
+        }
+        if (k == 'NorthHaven') {
+            NorthHaven = newcsvData[i];
+        }
+        if (k == 'Orange') {
+            Orange = newcsvData[i];
+        }
+        if (k == 'Wallingford') {
+            Wallingford = newcsvData[i];
+        }
+        if (k == 'Waterbury') {
+            Waterbury = newcsvData[i];
+        }
+        if (k == 'WestHaven') {
+            WestHaven = newcsvData[i];
+        }
+        if (k == 'Bethlehem') {
+            Bethlehem = newcsvData[i];
+        }
+        if (k == 'Bridgewater') {
+            Bridgewater = newcsvData[i];
+        }
+        if (k == 'Canaan') {
+            Canaan = newcsvData[i];
+        }
+        if (k == 'Colebrook') {
+            Colebrook = newcsvData[i];
+        }
+        if (k == 'Ashford') {
+            Ashford = newcsvData[i];
+        }
+        if (k == 'Brooklyn') {
+            Brooklyn = newcsvData[i];
+        }
+        if (k == 'Canterbury') {
+            Canterbury = newcsvData[i];
+        }
+        if (k == 'Chaplin') {
+            Chaplin = newcsvData[i];
+        }
+        if (k == 'Cornwall') {
+            Cornwall = newcsvData[i];
+        }
+        if (k == 'Goshen') {
+            Goshen = newcsvData[i];
+        }
+        if (k == 'Harwinton') {
+            Harwinton = newcsvData[i];
+        }
+        if (k == 'Kent') {
+            Kent = newcsvData[i];
+        }
+        if (k == 'Morris') {
+            Morris = newcsvData[i];
+        }
+        if (k == 'Eastford') {
+            Eastford = newcsvData[i];
+        }
+        if (k == 'Plainfield') {
+            Plainfield = newcsvData[i];
+        }
+        if (k == 'Pomfret') {
+            Pomfret = newcsvData[i];
+        }
+        if (k == 'Milford') {
+            Milford = newcsvData[i];
+        }
+        if (k == 'Oxford') {
+            Oxford = newcsvData[i];
+        }
+        if (k == 'OldLyme') {
+            Lyme = newcsvData[i];
+        }
+        if (k == 'Stonington') {
+            Stonington = newcsvData[i];
+        }
+        if (k == 'Scotland') {
+            Scotland = newcsvData[i];
+        }
+        if (k == 'Madison') {
+            Madison = newcsvData[i];
+        }
+        if (k == 'Southbury') {
+            Southbury = newcsvData[i];
+        }
+        if (k == 'Prospect') {
+            Prospect = newcsvData[i];
+        }
+        if (k == 'Clinton') {
+            Clinton = newcsvData[i];
+        }
+        if (k == 'NewLondon') {
+            NewLondon = newcsvData[i];
+        }
+        if (k == 'Ansonia') {
+            Ansonia = newcsvData[i];
+        }
+        if (k == 'Bethany') {
+            Bethany = newcsvData[i];
+        }
+        if (k == 'Branford') {
+            Branford = newcsvData[i];
+        }
+        if (k == 'Guilford') {
+            Guilford = newcsvData[i];
+        }
+    }
+
+
+    zingchart.MODULESDIR = 'https://cdn.zingchart.com/modules/';
+    zingchart.loadModules('maps, maps-geojson', function (e) { //Required. Load the maps-geojson module.
+        zingchart.maps.loadGeoJSON({ //Required. Add the loadGeoJSON() method.
+            id: 'customMapName', //Required. Provide the id name, which will  correspond to the name below.
+            url: 'http://127.0.0.1:8887/static/TownMapping.geojson', //Required. Provide the GeoJSON file source.
+            //Source: https://github.com/blackmad/neighborhoods/blob/master/gn-san-diego.geojson?short_path=c5454cc
+            mappings: { //Recommended. Allows you to property names from the GeoJSON file to ZingChart.
+                id: 'NAME',
+                name: 'NAME'
+            },
+            style: { //Optional.
+
+            },
+            callback: function () { //Recommended. Use the function to render the map.
+                zingchart.render({
+                    id: 'myChart',
+                    data: {
+                        shapes: [{
+                            type: 'zingchart.maps',
+                            options: {
+                                name: 'customMapName', //This corresponds with the id above.
+
+                                style: {
+                                    label: {
+                                        visible: false
+                                    }, tooltip: {
+                                        text: '%data-region:<br>%text',
+
+
+                                        alpha: 0.7,
+                                        backgroundColor: 'white',
+                                        borderColor: '#00BCD4',
+                                        fontColor: 'black',
+                                        borderRadius: 1,
+                                        fontFamily: 'Georgia',
+                                        fontSize: 16,
+                                        textAlign: 'center',
+                                        textAlpha: 1,
+                                    },
+                                    items: {
+                                        Cheshire: {
+                                            'data-region': 'Total Cases : ' + this.Cheshire[1] + ' Total Deaths : ' + this.Cheshire[2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Derby: {
+                                            'data-region': 'Total Cases : ' + this.Derby [1] + ' Total Deaths : ' + this.Derby [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        EastHaven: {
+                                            'data-region': 'Total Cases : ' + this.EastHaven[1] + ' Total Deaths : ' + this.EastHaven[2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Canton: {
+                                            'data-region': 'Total Cases : ' + this.Canton [1] + ' Total Deaths : ' + this.Canton [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Seymour: {
+                                            'data-region': 'Total Cases : ' + this.Seymour [1] + ' Total Deaths : ' + this.Seymour [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Naugatuck: {
+                                            'data-region': 'Total Cases : ' + this.Naugatuck [1] + ' Total Deaths : ' + this.Naugatuck [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Woodbridge: {
+                                            'data-region': 'Total Cases : ' + this.Woodbridge [1] + ' Total Deaths : ' + this.Woodbridge [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Granby: {
+                                            'data-region': 'Total Cases : ' + this.Granby [1] + ' Total Deaths : ' + this.Granby [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Hampton: {
+                                            'data-region': 'Total Cases : ' + this.Hampton [1] + ' Total Deaths : ' + this.Hampton [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Westbrook: {
+                                            'data-region': 'Total Cases : ' + this.Westbrook [1] + ' Total Deaths : ' + this.Westbrook [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Countysubdivisionsnotdefined: {
+                                            'data-region': 'Total Cases : ' + this.Countysubdivisions [1] + ' Total Deaths : ' + this.Countysubdivisions [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        DeepRiver: {
+                                            'data-region': 'Total Cases : ' + this.DeepRiver [1] + ' Total Deaths : ' + this.DeepRiver [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        EastHaddam: {
+                                            'data-region': 'Total Cases : ' + this.EastHaddam [1] + ' Total Deaths : ' + this.EastHaddam [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        EastHampton: {
+                                            'data-region': 'Total Cases : ' + this.EastHampton [1] + ' Total Deaths : ' + this.EastHampton [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Bozrah: {
+                                            'data-region': 'Total Cases : ' + this.Bozrah [1] + ' Total Deaths : ' + this.Bozrah [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Colchester: {
+                                            'data-region': 'Total Cases : ' + this.Colchester [1] + ' Total Deaths : ' + this.Colchester [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        EastLyme: {
+                                            'data-region': 'Total Cases : ' + this.EastLyme [1] + ' Total Deaths : ' + this.EastLyme [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Franklin: {
+                                            'data-region': 'Total Cases : ' + this.Franklin [1] + ' Total Deaths : ' + this.Franklin [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Griswold: {
+                                            'data-region': 'Total Cases : ' + this.Griswold [1] + ' Total Deaths : ' + this.Griswold [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Groton: {
+                                            'data-region': 'Total Cases : ' + this.Groton [1] + ' Total Deaths : ' + this.Groton [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Lyme: {
+                                            'data-region': 'Total Cases : ' + this.Lyme [1] + ' Total Deaths : ' + this.Lyme [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Montville: {
+                                            'data-region': 'Total Cases : ' + this.Montville [1] + ' Total Deaths : ' + this.Montville [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        NorthStonington: {
+                                            'data-region': 'Total Cases : ' + this.NorthStonington [1] + ' Total Deaths : ' + this.NorthStonington [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Norwich: {
+                                            'data-region': 'Total Cases : ' + this.Norwich [1] + ' Total Deaths : ' + this.Norwich [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Essex: {
+                                            'data-region': 'Total Cases : ' + this.Essex [1] + ' Total Deaths : ' + this.Essex [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Haddam: {
+                                            'data-region': 'Total Cases : ' + this.Haddam [1] + ' Total Deaths : ' + this.Haddam [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Killingworth: {
+                                            'data-region': 'Total Cases : ' + this.Killingworth [1] + ' Total Deaths : ' + this.Killingworth [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Preston: {
+                                            'data-region': 'Total Cases : ' + this.Preston [1] + ' Total Deaths : ' + this.Preston [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Middlefield: {
+                                            'data-region': 'Total Cases : ' + this.Middlefield [1] + ' Total Deaths : ' + this.Middlefield [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        OldSaybrook: {
+                                            'data-region': 'Total Cases : ' + this.OldSaybrook [1] + ' Total Deaths : ' + this.OldSaybrook [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Portland: {
+                                            'data-region': 'Total Cases : ' + this.Portland [1] + ' Total Deaths : ' + this.Portland [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Middletown: {
+                                            'data-region': 'Total Cases : ' + this.Middletown [1] + ' Total Deaths : ' + this.Middletown [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Bolton: {
+                                            'data-region': 'Total Cases : ' + this.Bolton [1] + ' Total Deaths : ' + this.Bolton [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Ellington: {
+                                            'data-region': 'Total Cases : ' + this.Ellington [1] + ' Total Deaths : ' + this.Ellington [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Hebron: {
+                                            'data-region': 'Total Cases : ' + this.Hebron [1] + ' Total Deaths : ' + this.Hebron [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Somers: {
+                                            'data-region': 'Total Cases : ' + this.Somers [1] + ' Total Deaths : ' + this.Somers [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Stafford: {
+                                            'data-region': 'Total Cases : ' + this.Stafford [1] + ' Total Deaths : ' + this.Stafford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Tolland: {
+                                            'data-region': 'Total Cases : ' + this.Tolland [1] + ' Total Deaths : ' + this.Tolland [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Union: {
+                                            'data-region': 'Total Cases : ' + this.Union [1] + ' Total Deaths : ' + this.Union [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Vernon: {
+                                            'data-region': 'Total Cases : ' + this.Vernon [1] + ' Total Deaths : ' + this.Vernon [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Willington: {
+                                            'data-region': 'Total Cases : ' + this.Willington [1] + ' Total Deaths : ' + this.Willington [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Litchfield: {
+                                            'data-region': 'Total Cases : ' + this.Litchfield [1] + ' Total Deaths : ' + this.Litchfield [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        NewHartford: {
+                                            'data-region': 'Total Cases : ' + this.NewHartford [1] + ' Total Deaths : ' + this.NewHartford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        NewMilford: {
+                                            'data-region': 'Total Cases : ' + this.NewMilford [1] + ' Total Deaths : ' + this.NewMilford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Norfolk: {
+                                            'data-region': 'Total Cases : ' + this.Norfolk [1] + ' Total Deaths : ' + this.Norfolk [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        NorthCanaan: {
+                                            'data-region': 'Total Cases : ' + this.NorthCanaan [1] + ' Total Deaths : ' + this.NorthCanaan [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Sharon: {
+                                            'data-region': 'Total Cases : ' + this.Sharon [1] + ' Total Deaths : ' + this.Sharon [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Thomaston: {
+                                            'data-region': 'Total Cases : ' + this.Thomaston [1] + ' Total Deaths : ' + this.Thomaston [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Torrington: {
+                                            'data-region': 'Total Cases : ' + this.Torrington [1] + ' Total Deaths : ' + this.Torrington [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Warren: {
+                                            'data-region': 'Total Cases : ' + this.Warren [1] + ' Total Deaths : ' + this.Warren [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Washington: {
+                                            'data-region': 'Total Cases : ' + this.Washington [1] + ' Total Deaths : ' + this.Washington [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Watertown: {
+                                            'data-region': 'Total Cases : ' + this.Watertown [1] + ' Total Deaths : ' + this.Watertown [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Winchester: {
+                                            'data-region': 'Total Cases : ' + this.Winchester [1] + ' Total Deaths : ' + this.Winchester [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Woodbury: {
+                                            'data-region': 'Total Cases : ' + this.Woodbury [1] + ' Total Deaths : ' + this.Woodbury [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Wolcott: {
+                                            'data-region': 'Total Cases : ' + this.Wolcott [1] + ' Total Deaths : ' + this.Wolcott [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Sterling: {
+                                            'data-region': 'Total Cases : ' + this.Sterling [1] + ' Total Deaths : ' + this.Sterling [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Thompson: {
+                                            'data-region': 'Total Cases : ' + this.Thompson [1] + ' Total Deaths : ' + this.Thompson [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Woodstock: {
+                                            'data-region': 'Total Cases : ' + this.Woodstock [1] + ' Total Deaths : ' + this.Woodstock [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        BeaconFalls: {
+                                            'data-region': 'Total Cases : ' + this.BeaconFalls [1] + ' Total Deaths : ' + this.BeaconFalls [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Salem: {
+                                            'data-region': 'Total Cases : ' + this.Salem [1] + ' Total Deaths : ' + this.Salem [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Sprague: {
+                                            'data-region': 'Total Cases : ' + this.Sprague [1] + ' Total Deaths : ' + this.Sprague [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Voluntown: {
+                                            'data-region': 'Total Cases : ' + this.Voluntown [1] + ' Total Deaths : ' + this.Voluntown [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Waterford: {
+                                            'data-region': 'Total Cases : ' + this.Waterford [1] + ' Total Deaths : ' + this.Waterford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Putnam: {
+                                            'data-region': 'Total Cases : ' + this.Putnam [1] + ' Total Deaths : ' + this.Putnam [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Windham: {
+                                            'data-region': 'Total Cases : ' + this.Windham [1] + ' Total Deaths : ' + this.Windham [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Plymouth: {
+                                            'data-region': 'Total Cases : ' + this.Plymouth [1] + ' Total Deaths : ' + this.Plymouth [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Norwalk: {
+                                            'data-region': 'Total Cases : ' + this.Norwalk [1] + ' Total Deaths : ' + this.Norwalk [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Bethel: {
+                                            'data-region': 'Total Cases : ' + this.Bethel [1] + ' Total Deaths : ' + this.Bethel [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Bridgeport: {
+                                            'data-region': 'Total Cases : ' + this.Bridgeport [1] + ' Total Deaths : ' + this.Bridgeport [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Brookfield: {
+                                            'data-region': 'Total Cases : ' + this.Brookfield [1] + ' Total Deaths : ' + this.Brookfield [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Danbury: {
+                                            'data-region': 'Total Cases : ' + this.Danbury [1] + ' Total Deaths : ' + this.Danbury [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Darien: {
+                                            'data-region': 'Total Cases : ' + this.Darien [1] + ' Total Deaths : ' + this.Darien [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Easton: {
+                                            'data-region': 'Total Cases : ' + this.Easton [1] + ' Total Deaths : ' + this.Easton [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Fairfield: {
+                                            'data-region': 'Total Cases : ' + this.Fairfield [1] + ' Total Deaths : ' + this.Fairfield [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Greenwich: {
+                                            'data-region': 'Total Cases : ' + this.Greenwich [1] + ' Total Deaths : ' + this.Greenwich [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Monroe: {
+                                            'data-region': 'Total Cases : ' + this.Monroe [1] + ' Total Deaths : ' + this.Monroe [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        NewCanaan: {
+                                            'data-region': 'Total Cases : ' + this.NewCanaan [1] + ' Total Deaths : ' + this.NewCanaan [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        NewFairfield: {
+                                            'data-region': 'Total Cases : ' + this.NewFairfield [1] + ' Total Deaths : ' + this.NewFairfield [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Newtown: {
+                                            'data-region': 'Total Cases : ' + this.Newtown [1] + ' Total Deaths : ' + this.Newtown [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Ridgefield: {
+                                            'data-region': 'Total Cases : ' + this.Ridgefield [1] + ' Total Deaths : ' + this.Ridgefield [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Shelton: {
+                                            'data-region': 'Total Cases : ' + this.Shelton [1] + ' Total Deaths : ' + this.Shelton [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Sherman: {
+                                            'data-region': 'Total Cases : ' + this.Sherman [1] + ' Total Deaths : ' + this.Sherman [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Stamford: {
+                                            'data-region': 'Total Cases : ' + this.Stamford [1] + ' Total Deaths : ' + this.Stamford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Stratford: {
+                                            'data-region': 'Total Cases : ' + this.Stratford [1] + ' Total Deaths : ' + this.Stratford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Trumbull: {
+                                            'data-region': 'Total Cases : ' + this.Trumbull [1] + ' Total Deaths : ' + this.Trumbull [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Weston: {
+                                            'data-region': 'Total Cases : ' + this.Weston [1] + ' Total Deaths : ' + this.Weston [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Westport: {
+                                            'data-region': 'Total Cases : ' + this.Westport [1] + ' Total Deaths : ' + this.Westport [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Wilton: {
+                                            'data-region': 'Total Cases : ' + this.Wilton [1] + ' Total Deaths : ' + this.Wilton [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Redding: {
+                                            'data-region': 'Total Cases : ' + this.Redding [1] + ' Total Deaths : ' + this.Redding [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Middlebury: {
+                                            'data-region': 'Total Cases : ' + this.Middlebury [1] + ' Total Deaths : ' + this.Middlebury [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Barkhamsted: {
+                                            'data-region': 'Total Cases : ' + this.Barkhamsted [1] + ' Total Deaths : ' + this.Barkhamsted [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Marlborough: {
+                                            'data-region': 'Total Cases : ' + this.Marlborough [1] + ' Total Deaths : ' + this.Marlborough [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Avon: {
+                                            'data-region': 'Total Cases : ' + this.Avon [1] + ' Total Deaths : ' + this.Avon [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Berlin: {
+                                            'data-region': 'Total Cases : ' + this.Berlin [1] + ' Total Deaths : ' + this.Berlin [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Bloomfield: {
+                                            'data-region': 'Total Cases : ' + this.Bloomfield [1] + ' Total Deaths : ' + this.Bloomfield [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Bristol: {
+                                            'data-region': 'Total Cases : ' + this.Bristol [1] + ' Total Deaths : ' + this.Bristol [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Burlington: {
+                                            'data-region': 'Total Cases : ' + this.Burlington [1] + ' Total Deaths : ' + this.Burlington [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        EastGranby: {
+                                            'data-region': 'Total Cases : ' + this.EastGranby [1] + ' Total Deaths : ' + this.EastGranby [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        EastHartford: {
+                                            'data-region': 'Total Cases : ' + this.EastHartford [1] + ' Total Deaths : ' + this.EastHartford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Enfield: {
+                                            'data-region': 'Total Cases : ' + this.Enfield [1] + ' Total Deaths : ' + this.Enfield [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Farmington: {
+                                            'data-region': 'Total Cases : ' + this.Farmington [1] + ' Total Deaths : ' + this.Farmington [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Glastonbury: {
+                                            'data-region': 'Total Cases : ' + this.Glastonbury [1] + ' Total Deaths : ' + this.Glastonbury [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Hartford: {
+                                            'data-region': 'Total Cases : ' + this.Hartford [1] + ' Total Deaths : ' + this.Hartford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Hartland: {
+                                            'data-region': 'Total Cases : ' + this.Hartland [1] + ' Total Deaths : ' + this.Hartland [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Manchester: {
+                                            'data-region': 'Total Cases : ' + this.Manchester [1] + ' Total Deaths : ' + this.Manchester [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        NewBritain: {
+                                            'data-region': 'Total Cases : ' + this.NewBritain [1] + ' Total Deaths : ' + this.NewBritain [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Newington: {
+                                            'data-region': 'Total Cases : ' + this.Newington [1] + ' Total Deaths : ' + this.Newington [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Plainville: {
+                                            'data-region': 'Total Cases : ' + this.Plainville [1] + ' Total Deaths : ' + this.Plainville [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Simsbury: {
+                                            'data-region': 'Total Cases : ' + this.Simsbury [1] + ' Total Deaths : ' + this.Simsbury [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Southington: {
+                                            'data-region': 'Total Cases : ' + this.Southington [1] + ' Total Deaths : ' + this.Southington [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        SouthWindsor: {
+                                            'data-region': 'Total Cases : ' + this.SouthWindsor [1] + ' Total Deaths : ' + this.SouthWindsor [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        WestHartford: {
+                                            'data-region': 'Total Cases : ' + this.WestHartford [1] + ' Total Deaths : ' + this.WestHartford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Wethersfield: {
+                                            'data-region': 'Total Cases : ' + this.Wethersfield [1] + ' Total Deaths : ' + this.Wethersfield [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Windsor: {
+                                            'data-region': 'Total Cases : ' + this.Windsor [1] + ' Total Deaths : ' + this.Windsor [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        WindsorLocks: {
+                                            'data-region': 'Total Cases : ' + this.WindsorLocks [1] + ' Total Deaths : ' + this.WindsorLocks [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Chester: {
+                                            'data-region': 'Total Cases : ' + this.Chester [1] + ' Total Deaths : ' + this.Chester [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        EastWindsor: {
+                                            'data-region': 'Total Cases : ' + this.EastWindsor [1] + ' Total Deaths : ' + this.EastWindsor [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Killingly: {
+                                            'data-region': 'Total Cases : ' + this.Killingly [1] + ' Total Deaths : ' + this.Killingly [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Lebanon: {
+                                            'data-region': 'Total Cases : ' + this.Lebanon [1] + ' Total Deaths : ' + this.Lebanon [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Lisbon: {
+                                            'data-region': 'Total Cases : ' + this.Lisbon [1] + ' Total Deaths : ' + this.Lisbon [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        RockyHill: {
+                                            'data-region': 'Total Cases : ' + this.RockyHill [1] + ' Total Deaths : ' + this.RockyHill [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Suffield: {
+                                            'data-region': 'Total Cases : ' + this.Suffield [1] + ' Total Deaths : ' + this.Suffield [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Cromwell: {
+                                            'data-region': 'Total Cases : ' + this.Cromwell [1] + ' Total Deaths : ' + this.Cromwell [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Durham: {
+                                            'data-region': 'Total Cases : ' + this.Durham [1] + ' Total Deaths : ' + this.Durham [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Ledyard: {
+                                            'data-region': 'Total Cases : ' + this.Ledyard [1] + ' Total Deaths : ' + this.Ledyard [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Hamden: {
+                                            'data-region': 'Total Cases : ' + this.Hamden [1] + ' Total Deaths : ' + this.Hamden [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Meriden: {
+                                            'data-region': 'Total Cases : ' + this.Meriden [1] + ' Total Deaths : ' + this.Meriden [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Andover: {
+                                            'data-region': 'Total Cases : ' + this.Andover [1] + ' Total Deaths : ' + this.Andover [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Columbia: {
+                                            'data-region': 'Total Cases : ' + this.Columbia [1] + ' Total Deaths : ' + this.Columbia [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Coventry: {
+                                            'data-region': 'Total Cases : ' + this.Coventry [1] + ' Total Deaths : ' + this.Coventry [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Mansfield: {
+                                            'data-region': 'Total Cases : ' + this.Mansfield [1] + ' Total Deaths : ' + this.Mansfield [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Roxbury: {
+                                            'data-region': 'Total Cases : ' + this.Roxbury [1] + ' Total Deaths : ' + this.Roxbury [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Salisbury: {
+                                            'data-region': 'Total Cases : ' + this.Salisbury [1] + ' Total Deaths : ' + this.Salisbury [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        NewHaven: {
+                                            'data-region': 'Total Cases : ' + this.NewHaven [1] + ' Total Deaths : ' + this.NewHaven [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        NorthBranford: {
+                                            'data-region': 'Total Cases : ' + this.NorthBranford [1] + ' Total Deaths : ' + this.NorthBranford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        NorthHaven: {
+                                            'data-region': 'Total Cases : ' + this.NorthHaven [1] + ' Total Deaths : ' + this.NorthHaven [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Orange: {
+                                            'data-region': 'Total Cases : ' + this.Orange [1] + ' Total Deaths : ' + this.Orange [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Wallingford: {
+                                            'data-region': 'Total Cases : ' + this.Wallingford [1] + ' Total Deaths : ' + this.Wallingford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Waterbury: {
+                                            'data-region': 'Total Cases : ' + this.Waterbury [1] + ' Total Deaths : ' + this.Waterbury [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        WestHaven: {
+                                            'data-region': 'Total Cases : ' + this.WestHaven [1] + ' Total Deaths : ' + this.WestHaven [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Bethlehem: {
+                                            'data-region': 'Total Cases : ' + this.Bethlehem [1] + ' Total Deaths : ' + this.Bethlehem [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Bridgewater: {
+                                            'data-region': 'Total Cases : ' + this.Bridgewater [1] + ' Total Deaths : ' + this.Bridgewater [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Canaan: {
+                                            'data-region': 'Total Cases : ' + this.Canaan [1] + ' Total Deaths : ' + this.Canaan [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Colebrook: {
+                                            'data-region': 'Total Cases : ' + this.Colebrook [1] + ' Total Deaths : ' + this.Colebrook [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Ashford: {
+                                            'data-region': 'Total Cases : ' + this.Ashford [1] + ' Total Deaths : ' + this.Ashford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Brooklyn: {
+                                            'data-region': 'Total Cases : ' + this.Brooklyn [1] + ' Total Deaths : ' + this.Brooklyn [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Canterbury: {
+                                            'data-region': 'Total Cases : ' + this.Canterbury [1] + ' Total Deaths : ' + this.Canterbury [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Chaplin: {
+                                            'data-region': 'Total Cases : ' + this.Chaplin [1] + ' Total Deaths : ' + this.Chaplin [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Cornwall: {
+                                            'data-region': 'Total Cases : ' + this.Cornwall [1] + ' Total Deaths : ' + this.Cornwall [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Goshen: {
+                                            'data-region': 'Total Cases : ' + this.Goshen [1] + ' Total Deaths : ' + this.Goshen [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Harwinton: {
+                                            'data-region': 'Total Cases : ' + this.Harwinton [1] + ' Total Deaths : ' + this.Harwinton [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Kent: {
+                                            'data-region': 'Total Cases : ' + this.Kent [1] + ' Total Deaths : ' + this.Kent [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Morris: {
+                                            'data-region': 'Total Cases : ' + this.Morris [1] + ' Total Deaths : ' + this.Morris [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Eastford: {
+                                            'data-region': 'Total Cases : ' + this.Eastford [1] + ' Total Deaths : ' + this.Eastford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Plainfield: {
+                                            'data-region': 'Total Cases : ' + this.Plainfield [1] + ' Total Deaths : ' + this.Plainfield [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Pomfret: {
+                                            'data-region': 'Total Cases : ' + this.Pomfret [1] + ' Total Deaths : ' + this.Pomfret [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Milford: {
+                                            'data-region': 'Total Cases : ' + this.Milford [1] + ' Total Deaths : ' + this.Milford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Oxford: {
+                                            'data-region': 'Total Cases : ' + this.Oxford [1] + ' Total Deaths : ' + this.Oxford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        OldLyme: {
+                                            'data-region': 'Total Cases : ' + this.OldLyme [1] + ' Total Deaths : ' + this.OldLyme [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Stonington: {
+                                            'data-region': 'Total Cases : ' + this.Stonington [1] + ' Total Deaths : ' + this.Stonington [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Scotland: {
+                                            'data-region': 'Total Cases : ' + this.Scotland [1] + ' Total Deaths : ' + this.Scotland [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Madison: {
+                                            'data-region': 'Total Cases : ' + this.Madison [1] + ' Total Deaths : ' + this.Madison [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Southbury: {
+                                            'data-region': 'Total Cases : ' + this.Southbury [1] + ' Total Deaths : ' + this.Southbury [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Prospect: {
+                                            'data-region': 'Total Cases : ' + this.Prospect [1] + ' Total Deaths : ' + this.Prospect [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Clinton: {
+                                            'data-region': 'Total Cases : ' + this.Clinton [1] + ' Total Deaths : ' + this.Clinton [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        NewLondon: {
+                                            'data-region': 'Total Cases : ' + this.NewLondon [1] + ' Total Deaths : ' + this.NewLondon [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Ansonia: {
+                                            'data-region': 'Total Cases : ' + this.Ansonia [1] + ' Total Deaths : ' + this.Ansonia [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Bethany: {
+                                            'data-region': 'Total Cases : ' + this.Bethany [1] + ' Total Deaths : ' + this.Bethany [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Branford: {
+                                            'data-region': 'Total Cases : ' + this.Branford [1] + ' Total Deaths : ' + this.Branford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        },
+                                        Guilford: {
+                                            'data-region': 'Total Cases : ' + this.Guilford [1] + ' Total Deaths : ' + this.Guilford [2],
+                                            backgroundColor: '#6c9dc6',
+                                            hoverState: {backgroundColor: '#325d81'}
+                                        }
+
+                                    },
+                                    zoom: false,
+                                    zooming: false,
+                                    panning: false,
+                                }
+                            }
+                        }
+                        ]
+                    },
+                    height: '100%',
+                    width: '100%'
+                });
+            }
+        })
+        ;
+    })
+    ;
+
 </script>
-      {% endblock %}
+{% endblock %}
 </html>

@@ -5,3 +5,4 @@ CovidDash/CovidDash/__pycache__/settings.cpython-38.pyc
 CovidDash/CovidDash/__pycache__/urls.cpython-38.pyc
 CovidDash/firstPage/__pycache__/views.cpython-38.pyc
 CovidDash/firstPage/__pycache__/__init__.cpython-38.pyc
+*.ipynb

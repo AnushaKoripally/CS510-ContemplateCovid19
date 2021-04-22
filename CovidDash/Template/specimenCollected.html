@@ -10,9 +10,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
 <body>
-<h1> School Cases </h1>
+<h1> Specimen Collected </h1>
 <div>
-    {% if schools == 'True' %}
+    {% if specimenvalue == 'True' %}
     <div style="position:relative;top:50px;">
         <canvas id="myChart" width="5" height="2"></canvas>
     </div>
@@ -22,7 +22,6 @@
 </body>
 
 <script>
-
     var ctx = document.getElementById('myChart'); // node
 var ctx = document.getElementById('myChart').getContext('2d'); // 2d context
 
@@ -32,18 +31,46 @@ var ctx = document.getElementById('myChart').getContext('2d'); // 2d context
     labels: {{newLabels|safe}},
     datasets: [
      {
-      label: 'Staff Cases',
-      data: {{staffcases|safe}},
+      label: 'RT-PCR Tests',
+      data: {{PCR_Tests|safe}},
       borderColor: 'blue'
     },
     {
-      label: 'Student Cases',
-      data: {{studentcases|safe}},
-      borderColor: 'green'
+      label: 'RT-PCR Positive',
+      data: {{PCR_Positive|safe}},
+      borderColor: 'purple'
+    },
+    {
+      label: 'AG Tests',
+      data: {{AG_Tests|safe}},
+      borderColor: 'red'
+    },
+    {
+      label: 'AG Positive',
+      data: {{AG_Positive|safe}},
+      borderColor: 'orange'
     }]
   },
-  options: {  }
+  options: { scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+        }
+      }],
+    },
+    legend: {
+                position: 'bottom',
+              },
+    title: {
+                display: true,
+                position: 'bottom',
+
+              }
+  }
+
+
 });
+
 
 
 </script>

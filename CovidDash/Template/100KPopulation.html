@@ -10,9 +10,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
 <body>
-<h1> School Cases </h1>
+<h1> 100k Population </h1>
 <div>
-    {% if schools == 'True' %}
+    {% if populationvalue == 'True' %}
     <div style="position:relative;top:50px;">
         <canvas id="myChart" width="5" height="2"></canvas>
     </div>
@@ -22,24 +22,29 @@
 </body>
 
 <script>
-
     var ctx = document.getElementById('myChart'); // node
 var ctx = document.getElementById('myChart').getContext('2d'); // 2d context
 
    var myChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: {{newLabels|safe}},
+    labels: {{listdates|safe}},
     datasets: [
      {
-      label: 'Staff Cases',
-      data: {{staffcases|safe}},
+      label: 'Total Cases',
+      data: {{totalcases|safe}},
       borderColor: 'blue'
     },
     {
-      label: 'Student Cases',
-      data: {{studentcases|safe}},
-      borderColor: 'green'
+      label: 'Case Rate',
+      data: {{caserate|safe}},
+      borderColor: 'purple'
+    },
+
+    {
+      label: ' Positive Cases',
+      data: {{percentpositive|safe}},
+      borderColor: 'orange'
     }]
   },
   options: {  }

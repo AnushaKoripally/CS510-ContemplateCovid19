@@ -118,18 +118,17 @@ def maps(request):
 
 
 def townMap(request):
-    DailyUpdate = pd.read_csv('https://raw.githubusercontent.com/nytimes/covid-19-data/master/live/us-states.csv',
-                              encoding='utf-8', na_values=None)
-    value = DailyUpdate.loc[DailyUpdate['state'].isin(["Connecticut"])]
-    value = value[['state', value.columns[2], value.columns[3], value.columns[4],
-                   value.columns[5], value.columns[6]]]
+    Townmap = pd.read_csv('https://data.ct.gov/resource/28fr-iqnx.csv', encoding='utf-8', na_values=None)
+    value = Townmap.groupby('town').sum()
+    value = value.reset_index()
+    value = value[['town', value.columns[2], value.columns[3], value.columns[6]]]
 
-    allData = []
-    for i in range(value.shape[0]):
-        temp = value.iloc[i]
-        allData.append(dict(temp))
+    town = value[value.columns[0]].values.tolist()
+    TotalCases = value[value.columns[1]].values.tolist()
+    ConfirmedCases = value[value.columns[2]].values.tolist()
+    TotalDeaths = value[value.columns[3]].values.tolist()
     townMap ='True'
-    context = {'allData': allData, 'townMap': townMap}
+    context = {'town': town, 'TotalCases': TotalCases, 'ConfirmedCases': ConfirmedCases, 'TotalDeaths': TotalDeaths, 'townMap': townMap}
     return render(request, 'TownMaps.html', context)
 
 
@@ -240,53 +239,103 @@ def schoolCases(request):
 
     staffcases = result[result.columns[0]].values.tolist()
     studentcases = result[result.columns[1]].values.tolist()
-    newLabels = ["Mar 2020"]
+    newLabels = ["Sept 2020"]
     array_length = len(result)
     for index in range(array_length):
-        newLabels[0] == "Mar 2020"
+        newLabels[0] == "Sept 2020"
         if index == 1:
-            newLabels.append("Apr 2020")
-        elif index == 2:
-            newLabels.append("May 2020")
-        elif index == 3:
-            newLabels.append("Jun 2020")
-        elif index == 4:
-            newLabels.append("Jul 2020")
-        elif index == 5:
-            newLabels.append("Aug 2020")
-        elif index == 6:
-            newLabels.append("Sept 2020")
-        elif index == 7:
             newLabels.append("Oct 2020")
-        elif index == 8:
+        elif index == 2:
             newLabels.append("Nov 2020")
-        elif index == 9:
+        elif index == 3:
             newLabels.append("Dec 2020")
-        elif index == 10:
+        elif index == 4:
             newLabels.append("Jan 2021")
-        elif index == 11:
+        elif index == 5:
             newLabels.append("Feb 2021")
-        elif index == 12:
+        elif index == 6:
             newLabels.append("Mar 2021")
-        elif index == 13:
+        elif index == 7:
             newLabels.append("Apr 2021")
-        elif index == 14:
+        elif index == 8:
             newLabels.append("May 2021")
-        elif index == 15:
+        elif index == 9:
             newLabels.append("Jun 2021")
-        elif index == 16:
+        elif index == 10:
             newLabels.append("Jul 2021")
-        elif index == 17:
-            newLabels.append("Aug 2021")
-        elif index == 18:
-            newLabels.append("Sept 2021")
-        elif index == 19:
-            newLabels.append("Oct 2021")
     schools = 'True'
     fields = ['staffcases', 'studentcases']
     context = { 'staffcases': staffcases, 'newLabels':newLabels, 'studentcases' : studentcases, 'schools': schools}
 
     return render(request, 'Schools.html', context)
+
+def specimen(request):
+    specimen = pd.read_csv('https://data.ct.gov/resource/qfkt-uahj.csv', encoding='utf-8', na_values=None)
+    data = specimen.groupby('date').sum().sort_values(by='date')
+    data = data.reset_index()
+    data['date'] = pd.to_datetime(data['date'])
+    result = data.groupby([data['date'].dt.year, data['date'].dt.month], as_index=False).agg(
+        {'number_of_pcr_tests': sum, 'number_of_pcr_positives': sum, 'number_of_ag_tests': sum,
+         'number_of_ag_positives': sum})
+    result
+
+    PCR_Tests = result[result.columns[0]].values.tolist()
+    PCR_Positive = result[result.columns[1]].values.tolist()
+    AG_Tests = result[result.columns[2]].values.tolist()
+    AG_Positive = result[result.columns[3]].values.tolist()
+
+    newLabels = ["Dec 2020"]
+    array_length = len(result)
+    for index in range(array_length):
+        newLabels[0] == "Dec 2020"
+        if index == 1:
+            newLabels.append("Jan 2021")
+        elif index == 2:
+            newLabels.append("Feb 2021")
+        elif index == 3:
+            newLabels.append("Mar 2021")
+        elif index == 4:
+            newLabels.append("Apr 2021")
+        elif index == 5:
+            newLabels.append("May 2021")
+        elif index == 6:
+            newLabels.append("Jun 2021")
+
+
+    specimenvalue = 'True'
+
+    context = { 'PCR_Tests': PCR_Tests, 'newLabels':newLabels, 'PCR_Positive' : PCR_Positive, 'specimenvalue': specimenvalue, 'AG_Tests': AG_Tests, 'AG_Positive': AG_Positive}
+
+    return render(request, 'specimenCollected.html', context)
+
+
+def population(request):
+    population = pd.read_csv('https://data.ct.gov/resource/hree-nys2.csv', encoding='utf-8', na_values=None)
+    data = population.groupby('updatedate').sum().sort_values(by='updatedate')
+    data = data.reset_index()
+    data['updatedate'] = pd.to_datetime(data['updatedate'])
+
+    test = population.groupby('updatedate').sum().sort_values(by='updatedate')
+    test = test.reset_index()
+
+    from datetime import datetime
+    listdates = []
+    for ts in test['updatedate']:
+        listdate = datetime.strftime(pd.to_datetime(ts), format='%m-%d-%Y')
+        listdates.append(listdate)
+    totalcases = test[test.columns[5]].values.tolist()
+    caserate = test[test.columns[6]].values.tolist()
+    totaltests = test[test.columns[7]].values.tolist()
+    percentpositive = test[test.columns[8]].values.tolist()
+
+    populationvalue = 'True'
+
+    context = { 'totalcases': totalcases, 'caserate':caserate, 'totaltests' : totaltests, 'percentpositive': percentpositive, 'listdates': listdates, 'populationvalue': populationvalue}
+
+    return render(request, '100KPopulation.html', context)
+
+
+
 
 
 def redirect_view(request):
