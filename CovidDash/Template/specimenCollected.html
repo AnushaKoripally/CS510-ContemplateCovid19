@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+
+<meta charset="utf-8">
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+<link rel="stylesheet" type="text/css" href="//github.com/downloads/lafeber/world-flags-sprite/flags32.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+<body>
+<h1> Specimen Collected </h1>
+<div>
+    {% if specimenvalue == 'True' %}
+    <div style="position:relative;top:50px;">
+        <canvas id="myChart" width="5" height="2"></canvas>
+    </div>
+    {%endif%}
+
+</div>
+</body>
+
+<script>
+    var ctx = document.getElementById('myChart'); // node
+var ctx = document.getElementById('myChart').getContext('2d'); // 2d context
+
+   var myChart = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: {{newLabels|safe}},
+    datasets: [
+     {
+      label: 'RT-PCR Tests',
+      data: {{PCR_Tests|safe}},
+      borderColor: 'blue'
+    },
+    {
+      label: 'RT-PCR Positive',
+      data: {{PCR_Positive|safe}},
+      borderColor: 'purple'
+    },
+    {
+      label: 'AG Tests',
+      data: {{AG_Tests|safe}},
+      borderColor: 'red'
+    },
+    {
+      label: 'AG Positive',
+      data: {{AG_Positive|safe}},
+      borderColor: 'orange'
+    }]
+  },
+  options: { scales: {
+      yAxes: [{
+        ticks: {
+          beginAtZero: true,
+        }
+      }],
+    },
+    legend: {
+                position: 'bottom',
+              },
+    title: {
+                display: true,
+                position: 'bottom',
+
+              }
+  }
+
+
+});
+
+
+
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js"></script>
+{% endblock %}
+</html>
