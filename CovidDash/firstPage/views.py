@@ -226,7 +226,7 @@ def datasetAgeGenderEthnicity(request,selection):
         return render(request, 'GenderCases.html', context)
 
 def ageGenderEthnicityView(request):
-    return render(request, 'AgeGenderEthnicityCases.html')
+    return render(request, 'AgeGenderEthnicitycases.html')
 
 def schoolCases(request):
     school = pd.read_csv('https://data.ct.gov/resource/ehua-hw73.csv', encoding='utf-8', na_values=None)
@@ -284,22 +284,22 @@ def specimen(request):
     AG_Tests = result[result.columns[2]].values.tolist()
     AG_Positive = result[result.columns[3]].values.tolist()
 
-    newLabels = ["Dec 2020"]
+    newLabels = ["Jan 2020"]
     array_length = len(result)
     for index in range(array_length):
-        newLabels[0] == "Dec 2020"
+        newLabels[0] == "Jan 2020"
         if index == 1:
-            newLabels.append("Jan 2021")
-        elif index == 2:
             newLabels.append("Feb 2021")
-        elif index == 3:
+        elif index == 2:
             newLabels.append("Mar 2021")
-        elif index == 4:
+        elif index == 3:
             newLabels.append("Apr 2021")
-        elif index == 5:
+        elif index == 4:
             newLabels.append("May 2021")
-        elif index == 6:
+        elif index == 5:
             newLabels.append("Jun 2021")
+        elif index == 6:
+            newLabels.append("July 2021")
 
 
     specimenvalue = 'True'
