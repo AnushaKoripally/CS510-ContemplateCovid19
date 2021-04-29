@@ -42,7 +42,15 @@ var ctx = document.getElementById('myChart').getContext('2d'); // 2d context
       borderColor: 'green'
     }]
   },
-  options: {  }
+  options: {
+  legend: {
+                position: 'bottom',
+              },
+    title: {
+                display: true,
+                position: 'bottom',
+                text: 'Student and Staff Cases in Connecticut'
+              } }
 });
 
 

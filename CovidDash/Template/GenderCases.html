@@ -67,7 +67,15 @@ datasets: [
      data:{{barplotValOther|safe}}
   }
 ]},
-  options: {}
+  options: {
+  legend: {
+                position: 'bottom',
+              },
+    title: {
+                display: true,
+                position: 'bottom',
+                text: 'Covid-19 cases based on Gender in Connecticut'
+              }}
 });
 }
   var ctx2 = document.getElementById('AgeChart',)
@@ -100,6 +108,14 @@ datasets: [
   }
 ]},
   options: {
+  legend: {
+                position: 'bottom',
+              },
+    title: {
+                display: true,
+                position: 'bottom',
+                text: 'Covid-19 cases based on different age in Connecticut'
+              }
   }
 });
 }
@@ -121,6 +137,14 @@ datasets: [
   }
 ]},
   options: {
+  legend: {
+                position: 'bottom',
+              },
+    title: {
+                display: true,
+                position: 'bottom',
+                text: 'Covid-19 cases based on Race/Ethnicity in Connecticut'
+              }
   }
 });
 

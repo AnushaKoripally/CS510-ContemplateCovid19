@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
 
 <body>
-<h1> 100k Population </h1>
+<h1> Cases per 100k Population </h1>
 <div>
     {% if populationvalue == 'True' %}
     <div style="position:relative;top:50px;">
@@ -47,7 +47,15 @@ var ctx = document.getElementById('myChart').getContext('2d'); // 2d context
       borderColor: 'orange'
     }]
   },
-  options: {  }
+  options: {
+   legend: {
+                position: 'bottom',
+              },
+    title: {
+                display: true,
+                position: 'bottom',
+                text: 'Covid-19 Cases per 100k population in Connecticut'
+              }}
 });
 
 

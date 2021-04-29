@@ -78,7 +78,16 @@
     },
 
     // Configuration options go here
-    options: {}
+    options: {
+    legend: {
+                position: 'bottom',
+              },
+    title: {
+                display: true,
+                position: 'bottom',
+                text: 'Covid-19 cases based on Nursing Homes by Town'
+              }
+              }
 });
 var ctx = document.getElementById('myChart', ).getContext('2d');
     var chart = new Chart(ctx, {

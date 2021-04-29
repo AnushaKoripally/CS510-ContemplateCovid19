@@ -27,17 +27,15 @@
         <th bgcolor="white">HOSPITALIZED</th>
         <th bgcolor="white">DEATHS</th>
         <th bgcolor="white">CONFIRMED_DEATHS</th>
-        <th bgcolor="white">FIPS</th>
         {% for i in data%}
 
         <tr>
             <td>{{i.state}}</td>
 
             <td>{{i.positive}}</td>
-            <td>{{i.hospitalized}}</td>
+            <td>{{i.hospitalizedCurrently}}</td>
             <td>{{i.death}}</td>
             <td>{{i.deathConfirmed}}</td>
-            <td>{{i.fips}}</td>
         </tr>
         {% endfor %}
 
@@ -56,6 +54,7 @@
 <div>
     <h1 align="left">Covid Trends</h1>
     <canvas id="historyChart" width="300" height="100"></canvas>
+    <p>You can view datasets used to create this application <a href="https://data.ct.gov/browse?tags=covid-19"> Here</a></p>
 </div>
 {% endif %}
 </div>

@@ -61,7 +61,15 @@ var ctx = document.getElementById('myChart').getContext('2d'); // 2d context
       backgroundColor: 'green'
     }]
   },
-  options: {  }
+  options: {
+   legend: {
+                position: 'bottom',
+              },
+    title: {
+                display: true,
+                position: 'bottom',
+                text: ' Covid-19 Vaccination provided based on different county in Connecticut'
+              }}
 });
 
 

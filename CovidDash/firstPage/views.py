@@ -6,9 +6,9 @@ import os
 import numpy as np
 
 def index(request):
-    DailyUpdate = pd.read_csv('https://api.covidtracking.com/v1/states/current.csv', encoding='utf-8', na_values=None)
+    DailyUpdate = pd.read_csv('https://api.covidtracking.com/v1/states/current.csv', encoding='utf-8', na_values=None, dtype = str)
     value = DailyUpdate.loc[DailyUpdate['state'].isin(["CT"])]
-    value = value[['state', value.columns[2], value.columns[19], value.columns[18], value.columns[26],value.columns[40],
+    value = value[['state', value.columns[2], value.columns[8], value.columns[18], value.columns[26],value.columns[40],
                         value.columns[22],value.columns[23], value.columns[24]]]
     print(value)
     allData = []
