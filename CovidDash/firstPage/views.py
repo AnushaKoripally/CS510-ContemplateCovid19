@@ -1,3 +1,5 @@
+import math
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from collections import OrderedDict
@@ -10,11 +12,20 @@ def index(request):
     value = DailyUpdate.loc[DailyUpdate['state'].isin(["CT"])]
     value = value[['state', value.columns[2], value.columns[8], value.columns[18], value.columns[26],value.columns[40],
                         value.columns[22],value.columns[23], value.columns[24]]]
+
+
     print(value)
     allData = []
     for i in range(value.shape[0]):
-        temp = value.iloc[i]
+        a = int(i)
+        temp = value.iloc[a]
+        adata = [x for x in temp if str(x) == 'nan']
+        adata = "Not Defined"
         allData.append(dict(temp))
+
+
+
+
 
     historicalData = pd.read_csv('https://data.ct.gov/resource/rf3k-f8fg.csv', encoding='utf-8', na_values=None)
     lineplot = historicalData[['date',historicalData.columns[3],historicalData.columns[4],historicalData.columns[6],historicalData.columns[7],historicalData.columns[8]]].groupby('date').sum().sort_values(by='date')
@@ -54,7 +65,7 @@ def index(request):
     print(newLabels)
     showNursing = 'True'
     context = {'data' : allData, 'showNursing':showNursing, 'newLabels':newLabels, 'totalcases':totalcases, 'confirmedcases':confirmedcases,
-               'totaldeaths':totaldeaths,'confirmeddeaths':confirmeddeaths,'hospitalizedcases':hospitalizedcases }
+               'totaldeaths':totaldeaths,'confirmeddeaths':confirmeddeaths,'hospitalizedcases':hospitalizedcases, 'adata' :adata }
     return render(request, 'index.html', context)
 
 
@@ -65,9 +76,18 @@ def datasets(request, town_selection):
                            nursingHome.columns[7]]].groupby('town').sum().sort_values(by='town',
                                                                                       ascending=True)
     barplot = barplot.reset_index()
+
     barplot.columns = ['town', 'licensed_beds', 'residents_with_covid', 'covid_19_associated_lab_confirmed', 'covid_19_associated_deaths_probable']
     towns = barplot['town'].values.tolist()
-    filterbarplot = barplot['town']==town_selection
+    townsNew = []
+    for town in towns:
+        townsNew.append(town.replace(' ', '_'))
+
+    print(towns)
+    barplot['town'] = barplot['town'].str.replace(' ', '_')
+
+
+    filterbarplot = barplot['town']  == town_selection
     barplot.where(filterbarplot, inplace=True)
     barplotval = barplot['licensed_beds'].values.tolist()
     barplotval = [x for x in barplotval if str(x) != 'nan']
@@ -78,8 +98,11 @@ def datasets(request, town_selection):
     barplotval3 = barplot['covid_19_associated_deaths_probable'].values.tolist()
     barplotval3 = [x for x in barplotval3 if str(x) != 'nan']
     showNursing = 'False'
+
+
+
     fields = ['licensed_beds', 'residents_with_covid', 'covid_19_associated_lab_confirmed', 'covid_19_associated_deaths_probable']
-    context = {'town': towns, 'barplotval': barplotval, 'barplotval1': barplotval1, 'barplotval2': barplotval2,
+    context = {'town': townsNew, 'barplotval': barplotval, 'barplotval1': barplotval1, 'barplotval2': barplotval2,
                'barplotval3': barplotval3, 'showNursing': showNursing, 'fields':fields, 'town_selection':town_selection}
     print(town_selection)
     print(barplotval)
@@ -98,7 +121,10 @@ def datasets1(request):
     showTownSelection ='False'
     town_selection='None'
     towns = barplot['town'].values.tolist()
-    context = {'town': towns,'showNursing': showNursing, 'showTownSelection':showTownSelection, 'town_selection':town_selection}
+    townsNew = []
+    for town in towns:
+        townsNew.append(town.replace(' ', '_'))
+    context = {'town': townsNew,'showNursing': showNursing, 'showTownSelection':showTownSelection, 'town_selection':town_selection}
     return render(request, 'index2.html', context)
 
 def maps(request):
